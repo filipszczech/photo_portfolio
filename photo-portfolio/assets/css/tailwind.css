@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-[#EFEEEA];
+}
+
+@layer components {
+    .btn {
+        @apply bg-green-400 text-white px-3 py-2 rounded-md text-sm w-fit;
+    }
+
+    .hover-scale-105 {
+        @apply cursor-pointer hover:scale-105 transition-all duration-300;
+    }
+}
