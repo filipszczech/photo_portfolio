@@ -1,8 +1,8 @@
 <template>
     <div>
         <header>
-            <nav class="w-full bg-[#EFEEEA]">
-                <div class="fixed top-0 w-full flex justify-between items-center bg-[#EFEEEA] p-4 xl:p-12 z-50">
+            <nav class="fixed top-0 w-full bg-[#EFEEEA] z-50">
+                <div class="w-full flex justify-between items-center bg-[#EFEEEA] px-4 py-8 xl:px-12 xl:py-12">
                     <div>
                         <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
                     </div>
@@ -11,12 +11,25 @@
                             <img class="h-full" src="/img/logo3.png" />
                         </div>
                     </NuxtLink>
-                    <ul class="navbar-links flex gap-9 xl:gap-12 font-semibold">
+                    <!-- Hamburger menu icon for small screens -->
+                    <div class="lg:hidden hover-scale-105" @click="toggleMenu">
+                        <i class="pi pi-bars" style="font-size: 1.5rem; color: black"></i>
+                    </div>
+                    <!-- Navigation links for larger screens -->
+                    <ul class="navbar-links hidden lg:flex gap-9 xl:gap-12 font-semibold">
                         <li v-for="(link, index) in navLinks" :key="index">
                             <NuxtLink :to="link.link" class="hover-scale-105">{{ link.name }}</NuxtLink>
                         </li>
                     </ul>
                 </div>
+                <!-- Slide-out menu for small screens -->
+                <transition name="slide-down">
+                    <ul v-if="isMenuOpen" class="flex flex-col justify-center items-end gap-4 lg:hidden bg-[#EFEEEA] p-4">
+                        <li v-for="(link, index) in navLinks" :key="index">
+                            <NuxtLink :to="link.link" @click="toggleMenu" class="hover-scale-105">{{ link.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </transition>
             </nav>
         </header>
         <div class="p-4 xl:p-12 mt-16 lg:mt-24 max-w-[92rem] mx-auto">
@@ -40,20 +53,34 @@
 </template>
 
 <script setup>
-    const navLinks = [
-        { link: "/portfolio", name: "Portfolio" },
-        { link: "/sessions", name: "Sesje" },
-        { link: "/prints", name: "Printy" },
-    ]
-    const footerLinks = [
-        { link: "/", name: "Strona główna" },
-        { link: "/portfolio", name: "Portfolio" },
-        { link: "/sessions", name: "Sesje" },
-        { link: "/prints", name: "Printy" },
-    ]
+    import { ref } from 'vue'
+    import { useNavigationStore } from '~/stores/navigation'
+
+    const isMenuOpen = ref(false)
+    const toggleMenu = () => {
+        isMenuOpen.value = !isMenuOpen.value
+    }
+
+    const navigationStore = useNavigationStore()
+    const navLinks = navigationStore.navLinks
+    const footerLinks = navigationStore.footerLinks
 </script>
 
 <style scoped>
+    .slide-down-enter-active, .slide-down-leave-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-down-enter-from, .slide-down-leave-to {
+        opacity: 0;
+        max-height: 0;
+    }
+
+    .slide-down-enter-to, .slide-down-leave-from {
+        opacity: 1;
+        max-height: 300px;
+    }
+
     footer .router-link-exact-active {
         border-bottom: 1px solid;
     }

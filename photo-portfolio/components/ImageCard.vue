@@ -11,7 +11,7 @@
                 <img :src="src" :alt="desc" class="cursor-pointer hover:scale-105 transition-all duration-300" />
             </template>
         </div>
-        <p v-if="desc" class="font-semibold xl:text-lg mt-5">{{ desc }}</p>
+        <p v-if="desc" class="font-semibold xl:text-lg mt-3 lg:mt-5">{{ desc }}</p>
     </div>
 </template>
 

@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     }
   },
   plugins: ['@/plugins/primevue.js'],
-  modules: ['@nuxtjs/tailwindcss', '@formkit/nuxt', "@nuxtjs/supabase"],
+  modules: ['@nuxtjs/tailwindcss', '@formkit/nuxt', "@nuxtjs/supabase", "@pinia/nuxt"],
   formkit: {
     autoImport: true
   },
