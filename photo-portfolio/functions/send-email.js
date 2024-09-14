@@ -1,19 +1,19 @@
 const nodemailer = require('nodemailer');
 
 export default async (req, res) => {
-    const { to, subject, text } = req.body;
+    const { from, subject, text } = req.body;
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_USER, // Twój email
-            pass: process.env.EMAIL_PASS  // Twoje hasło do emaila lub App Password
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
 
     let mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: to,
+        from: from,
+        to: process.env.EMAIL_USER,
         subject: subject,
         text: text
     };
