@@ -1,7 +1,7 @@
 <template>
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
-    <div v-else class="grid grid-cols-3 gap-12 mt-12 items-center">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12 mt-12 items-center">
         <div v-for="(print, printIndex) in prints" :key="printIndex">
             <NuxtLink :to="'/prints/' + print.slug">
                 <img :src="print.src" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
@@ -14,20 +14,46 @@
 </template>
 
 <script setup>
+
+    const props = defineProps({
+        limit: {
+            type: Number,
+            default: null
+        },
+        horizontal: {
+            type: Boolean,
+            default: null
+        }
+    });
+
     const supabase = useSupabaseClient();
 
-    const prints = ref([])
-    const error = ref(null)
-    const loading = ref(true)
+    const prints = ref([]);
+    const error = ref(null);
+    const loading = ref(true);
 
     const fetchPrints = async () => {
-        loading.value = true
-        error.value = null
+        loading.value = true;
+        error.value = null;
+        console.log(props.horizontal)
 
         try {
-            const { data: printsData, error: printsError } = await supabase
+            let query = supabase
                 .from('prints')
-                .select()
+                .select();
+
+            if (props.limit !== null) {
+                query = query.limit(props.limit);
+            }
+
+            if(props.horizontal === true) {
+                query = query.eq("horizontal", true)
+            }
+            else if(props.horizontal === false) {
+                query = query.eq("horizontal", false)
+            }
+
+            const { data: printsData, error: printsError } = await query;
 
             if (printsError) {
                 throw new Error('Error fetching print: ' + printsError.message)
@@ -38,7 +64,6 @@
             error.value = err.message
         } finally {
             loading.value = false
-            console.log(prints.value)
         }
     }
 

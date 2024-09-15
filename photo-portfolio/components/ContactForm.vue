@@ -1,6 +1,6 @@
 <template>
     <div class="my-32">
-        <h2 class="text-4xl lg:text-6xl font-semibold mb-4 xl:mb-12">Kontakt.</h2>
+        <h2 class="text-4xl lg:text-6xl font-semibold mb-4 xl:mb-12">Kontakt</h2>
         <div class="grid grid-cols-2 md:grid-cols-3  gap-9 xl:gap-12">
             <div class="col-span-2 p-4 border border-black">
                 <p v-html="contentStore.ContactFormText"></p>

@@ -2,7 +2,7 @@
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
-        <div class="my-9 grid grid-cols-2 gap-12">
+        <div class="my-9 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
                 <img :src="print.src" />
             </div>

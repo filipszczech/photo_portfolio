@@ -2,7 +2,7 @@
     <div class="w-full grid lg:grid-cols-3 gap-12 mt-16 xl:mt-32">
         <div class="flex flex-col gap-6 justify-between">
             <div>
-                <h2 class="text-4xl lg:text-6xl font-semibold">O mnie.</h2>
+                <h2 class="text-4xl lg:text-6xl font-semibold">O mnie</h2>
             </div>
         </div>
         <div class="col-span-2 grid lg:grid-cols-2 gap-12">
