@@ -2,20 +2,28 @@
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
-        <div class="w-full mb-12 xl:mb-12 grid grid-cols-3 gap-12">
-            <div class="col-span-2">
+        <div class="w-full mt-6 mb-6 xl:mb-12 grid grid-cols-3 gap-12">
+            <div class="col-span-3 lg:col-span-2">
+                <div class="mb-6">
+                    <span>/</span>
+                    <NuxtLink class="mx-2" to="/">strona główna</NuxtLink>
+                    <span>/</span>
+                    <NuxtLink class="mx-2" to="/portfolio">portfolio</NuxtLink>
+                    <span>/</span>
+                    <span class="ml-2">{{ category.name.toLowerCase() }}</span>
+                </div>
                 <h1 class="text-6xl font-semibold mb-6">{{ category.name }}</h1>
                 <div class="border border-black p-4">
                     {{ category.desc }}
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-12">
+        <GridContainer>
             <div v-for="session in sessions" :key="session.slug" class="">
                 <!-- <h2 class="text-2xl xl:text-4xl font-bold mb-3">{{ session.name }}</h2> -->
                 <ImageCard :src="session.img" :desc="'/ ' + session.name" :link="'/sessions/' + session.slug" />
             </div>
-        </div>
+        </GridContainer>
     </div>
 </template>
 

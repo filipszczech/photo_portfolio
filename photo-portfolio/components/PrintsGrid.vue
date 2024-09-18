@@ -1,15 +1,17 @@
 <template>
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">{{ error }}</div>
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12 mt-12 items-center">
-        <div v-for="(print, printIndex) in prints" :key="printIndex">
-            <NuxtLink :to="'/prints/' + print.slug">
-                <img :src="print.src" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
-            </NuxtLink>
-            <NuxtLink :to="'/prints/' + print.slug">
-                <p class="text-center mt-2">{{ print.name }}</p>
-            </NuxtLink>
-        </div>
+    <div v-else>
+        <GridContainer>
+            <div v-for="(print, printIndex) in prints" :key="printIndex">
+                <NuxtLink :to="'/prints/' + print.slug">
+                    <img :src="print.src_border" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
+                </NuxtLink>
+                <NuxtLink :to="'/prints/' + print.slug">
+                    <p class="text-center mt-2">{{ print.name }}</p>
+                </NuxtLink>
+            </div>
+        </GridContainer>
     </div>
 </template>
 

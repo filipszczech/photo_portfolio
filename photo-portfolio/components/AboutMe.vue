@@ -1,9 +1,7 @@
 <template>
-    <div class="w-full grid lg:grid-cols-3 gap-12 mt-16 xl:mt-32">
-        <div class="flex flex-col gap-6 justify-between">
-            <div>
-                <h2 class="text-4xl lg:text-6xl font-semibold">O mnie</h2>
-            </div>
+    <div class="w-full grid lg:grid-cols-3 gap-6 xl:gap-12 mt-16 xl:mt-32">
+        <div class="">
+            <h2 class="section-header font-semibold">O mnie</h2>
         </div>
         <div class="col-span-2 grid lg:grid-cols-2 gap-12">
             <div class="flex flex-col justify-between">

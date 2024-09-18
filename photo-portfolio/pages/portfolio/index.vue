@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h1 class="text-4xl lg:text-6xl font-semibold mb-6">Portfolio.</h1>
+        <h1 class="section-header my-6">Portfolio</h1>
         <div class="grid grid-cols-3 gap-6 lg:gap-12">
             <div class="p-4 border border-black col-span-3 lg:col-span-2">
                 <p>Poniżej znajdziesz zrealizowane przeze mnie sesje. Podzieliłem je tematycznie oraz na sprzęt, którym były realizowane.</p>
             </div>
-            <div class="col-span-3 mb-12">
+            <div class="col-span-3 mb-24">
                 <CategoriesGrid />
             </div>
         </div>
-        <h2 class="text-4xl lg:text-6xl font-semibold mb-6">Aparaty.</h2>
+        <h2 class="section-header mb-6">Aparaty</h2>
         <div class="grid grid-cols-3 gap-6 lg:gap-12">
             <div class="p-4 border border-black col-span-3 lg:col-span-2">
                 <p>Jeśli Cię to interesuje to tutaj znajdziesz zdjęcia z podziałem na aparat oraz film, którymi zostały wykonane. Opisałem także wrażenia z ich korzystania.</p>

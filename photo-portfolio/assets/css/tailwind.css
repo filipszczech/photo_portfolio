@@ -14,4 +14,8 @@ body {
     .hover-scale-105 {
         @apply cursor-pointer hover:scale-105 transition-all duration-300;
     }
+
+    .section-header {
+        @apply text-3xl sm:text-4xl xl:text-6xl font-semibold;
+    }
 }

@@ -3,6 +3,16 @@
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
         <div class="mb-9">
+            <div class="mb-6">
+                <span>/</span>
+                <NuxtLink class="mx-2" to="/">Strona główna</NuxtLink>
+                <span>/</span>
+                <NuxtLink class="mx-2" to="/portfolio">portfolio</NuxtLink>
+                <span>/</span>
+                <NuxtLink class="mx-2" :to="'/categories/' + category.slug"><span class="mx-2">{{ category.name.toLowerCase() }}</span></NuxtLink>
+                <span>/</span>
+                <span class="ml-2">{{ session.name.toLowerCase() }}</span>
+            </div>
             <h1 class="text-6xl font-semibold text-center mb-6">{{ session.name }}</h1>
             <p class="text-center xl:w-1/2 mx-auto">{{ session.desc }}</p>
             <div class="p-4 border border-black lg:w-1/3 mx-auto mt-6">
@@ -28,6 +38,7 @@
 
     const session = ref(null)
     const photos = ref([])
+    const category = ref(null)
     const loading = ref(true)
     const error = ref(null)
 
@@ -45,8 +56,17 @@
             if (sessionError) {
                 throw new Error('Error fetching session: ' + sessionError.message)
             }
-
             session.value = sessionData
+
+            const { data: categoryData, error: categoryError } = await supabase
+                .from('categories')
+                .select('*')
+                .eq('id', sessionData.category_id)
+                .single()
+            if (categoryError) {
+                throw new Error('Error fetching category: ' + sessionError.message)
+            }
+            category.value = categoryData
 
             const { data: photosData, error: photosError } = await supabase
                 .from('photos')
@@ -56,8 +76,8 @@
             if (photosError) {
                 throw new Error('Error fetching photos: ' + photosError.message)
             }
-
             photos.value = photosData
+
         } catch (err) {
             error.value = err.message
         } finally {

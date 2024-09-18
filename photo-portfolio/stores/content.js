@@ -15,5 +15,8 @@ export const useContentStore = defineStore('content', {
         ContactFormText: `
             Jeśli masz do mnie jakieś pytania pisz śmiało! :)<br>Zapraszam na wspólną sesję w dogodnym dla nas obu terminie lub do zakupu moich printów.
         `,
+        SessionContactFormText: `
+            Daj znać, jakie zdjęcią chciałxbyś wykonać! :)<br>Zapraszam na wspólną sesję w dogodnym dla nas obu terminie.
+        `,
     }),
 });

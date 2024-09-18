@@ -1,9 +1,9 @@
 <template>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 xl:gap-12">
+    <GridContainer>
         <div v-for="category in categories" :key="category.id">
             <ImageCard :src="category.img" :desc="'/ ' + category.name" :link="'/categories/' + category.slug" />
         </div>
-    </div>
+    </GridContainer>
 </template>
 
 <script setup>

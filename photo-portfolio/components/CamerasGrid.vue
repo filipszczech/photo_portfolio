@@ -1,9 +1,9 @@
 <template>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 xl:gap-12">
+    <GridContainer>
         <div v-for="camera in cameras" :key="camera.id" class="">
             <ImageCard :src="camera.img" :desc="'/ ' + camera.name" :link="'/portfolio/' + camera.slug" />
         </div>
-    </div>
+    </GridContainer>
 </template>
 
 <script setup>

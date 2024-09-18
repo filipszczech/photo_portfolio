@@ -32,19 +32,19 @@
                 </transition>
             </nav>
         </header>
-        <div class="p-4 xl:p-12 mt-16 lg:mt-24 max-w-[92rem] mx-auto">
+        <div class="p-6 xl:p-12 mt-16 lg:mt-24 max-w-[92rem] mx-auto">
             <slot />
         </div>
         <footer class="p-4 xl:p-12">
-            <div class="flex justify between">
+            <div class="flex flex-col md:flex-row gap-4 justify-between">
                 <div></div>
-                <ul class="flex flex-wrap mx-auto justify-center gap-9 xl:gap-12 font-semibold">
-                    <li v-for="(link, index) in footerLinks" :key="index" class="flex gap-9 xl:gap-12">
+                <ul class="flex flex-wrap mx-auto justify-center gap-4 xl:gap-12 font-semibold">
+                    <li v-for="(link, index) in footerLinks" :key="index" class="flex gap-4 xl:gap-12">
                         <NuxtLink :to="link.link" class="hover-scale-105">{{ link.name }}</NuxtLink>
                         <div v-if="index < footerLinks.length - 1">/</div>
                     </li>
                 </ul>
-                <div>
+                <div class="mx-auto lg:mx-0">
                     <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
                 </div>
             </div>
