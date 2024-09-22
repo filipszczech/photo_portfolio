@@ -14,32 +14,61 @@
         <p class="border border-black p-4 mb-6 lg:mb-12 w-full md:w-2/3 mx-auto">
             Jeśli chcesz uzyskać zdjęcia w niepowtaralnym klimacie i o wyróżniającej się estetyce to średni format jest świetnym narzędziem. Jestem otwarty na wszelkie formy fotografii, nie tylko portretowej. Zgłoś się do mnie i na pewno coś wymyślimy.
         </p>
-        <div class="grid grid-cols-6 gap-9 xl:gap-12">
-            <div class="col-span-6 md:col-span-3 lg:col-span-2">
-                <img src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/wika%20studio/ws1.jpg"/>
-                <p class="text-2xl font-semibold my-2 xl:my-4">sesje w studiu</p>
-                <p>Klimatyczne sesje w studiu w wybranym stylu i ustalonym wcześniej klimacie.</p>
-            </div>
-            <div class="col-span-6 md:col-span-3 lg:col-span-2">
-                <img src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/botaniczny/ob4.jpg"/>
-                <p class="text-2xl font-semibold my-2 xl:my-4">sesje plenerowe</p>
-                <p>Wolisz ruszyć w teren? Nie ma problemu, zdjęcia w niecodziennych lokalizacjach to coś, co lubię.</p>
-            </div>
-            <div class="col-span-6 md:col-span-3 lg:col-span-2">
-                <img src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/czarnogora%202024/0018_15A.jpg?t=2024-09-15T22%3A10%3A45.305Z"/>
-                <p class="text-2xl font-semibold my-2 xl:my-4">sesje okolicznościowe</p>
-                <p>Chcesz uchwycić ważny moment w twoim życiu? Oki.</p>
-            </div>
-            <div class="col-span-6 md:col-span-3 lg:col-span-2">
-                <img src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60860011.jpg"/>
-                <p class="text-2xl font-semibold my-2 xl:my-4">sesje produktowe</p>
-                <p>Tworzysz coś ciekawego i chciałbyś się tym podzielić ze światem? Z wielką chęcią to uwiecznię na zdjęciach.</p>
+        <div v-if="loading">Loading...</div>
+        <div v-else-if="error">{{ error }}</div>
+        <div v-else class="grid grid-cols-6 gap-9 xl:gap-12">
+            <div v-for="(session, sessionIndex) in sessionTypes" :key="sessionIndex" class="col-span-6 md:col-span-3 lg:col-span-2">
+                <img :src="session.img" />
+                <p class="text-2xl font-semibold my-2 xl:my-4">{{ session.title }}</p>
+                <p>{{ session.desc }}</p>
             </div>
         </div>
         <SessionContactForm />
-    </div>
+        </div>
 </template>
 
 <script setup>
+    useHead({
+        title: "Gluciak.pl | sesje"
+    });
 
+    const supabase = useSupabaseClient();
+
+    const sessionTypes = ref([]);
+    const error = ref(null);
+    const loading = ref(true);
+
+    const fetchSessionTypes = async () => {
+        loading.value = true;
+        error.value = null;
+
+        try {
+            const { data: sessionTypesData, error: sessionTypesError } = await supabase
+                .from('session_types')
+                .select();
+
+            if (sessionTypesError) {
+                throw new Error('Error fetching session types: ' + sessionTypesError.message)
+            }
+            sessionTypes.value = sessionTypesData
+
+        } catch (err) {
+            error.value = err.message
+        } finally {
+            loading.value = false
+            console.log(sessionTypes.value)
+        }
+    }
+
+    onMounted(() => {
+        fetchSessionTypes()
+    })
+
+    if(!sessionTypes) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'Bład podczas wczytywania sesji.',
+            fatal: true
+        });
+    };
 </script>

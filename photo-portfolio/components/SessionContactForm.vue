@@ -62,7 +62,7 @@
     const toast = useToast();
 
     const showSuccess = () => {
-        toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 });
+        toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
     };
     const contentStore = useContentStore();
     
@@ -92,7 +92,7 @@
     const onSubmit = handleSubmit(async (values) => {
         try {
             console.log('Wiadomość wysłana:', values);
-            toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
+            toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000, styleClass: 'p-toast-message' });
             resetForm();
         } catch (error) {
             console.error('Błąd podczas wysyłania wiadomości:', error);
@@ -108,7 +108,7 @@
     
 </script>
 
-<style scoped>
+<style>
     .is-invalid {
         background-color: red;
     }
@@ -118,7 +118,12 @@
         appearance: none;
     }
     .p-toast {
-        background-color: red !important;
-        color: red !important;
+        background-color: #EFEEEA !important;
+        z-index: 100;
+        padding: 2rem;
+    }
+    .p-toast-message {
+        z-index: 100;
+        background-color: #EFEEEA;
     }
 </style>

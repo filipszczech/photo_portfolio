@@ -21,6 +21,9 @@
                     <p>{{ print.desc }}</p>
                 </div>
                 <div class="mb-3 lg:mb-6">
+                    <p>Cena: {{ print.price }}zł</p>
+                </div>
+                <div class="mb-3 lg:mb-6">
                     <p class="text-xl mb-2">Ramka</p>
                     <select v-model="selectedBorder" class="w-48 p-2 bg-inherit border-[1px] border-black">
                         <option :value="'whiteBorder'">Biała ramka</option>

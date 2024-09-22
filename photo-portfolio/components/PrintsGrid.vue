@@ -37,7 +37,6 @@
     const fetchPrints = async () => {
         loading.value = true;
         error.value = null;
-        console.log(props.horizontal)
 
         try {
             let query = supabase

@@ -10,7 +10,7 @@
             </div>
         </div> -->
         <div class="grid lg:grid-cols-3 gap-4 xl:gap-12 mt-9 mb-12 xl:mb-32">
-            <img class="col-span-2 w-full" src="/img/10.png" alt="my photo" /> 
+            <img class="col-span-2 w-full" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/homepage_main.png" alt="my photo" /> 
             <div class="flex flex-col justify-end">
                 <h1 class="section-header mb-6">Hejka :)</h1>
                 <div class="p-4 border border-black w-full">
