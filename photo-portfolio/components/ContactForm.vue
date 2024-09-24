@@ -44,9 +44,6 @@
                     <button class="bg-black px-6 py-3 text-white hover-scale-105">/ Wyślij</button>
                 </div>
             </form>
-            <!-- <div class="max-h-">
-                <img class=" object-cover" src="/img/contact.jpg" />
-            </div> -->
         </div>
     </div>
 </template>

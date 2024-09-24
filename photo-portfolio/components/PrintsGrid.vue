@@ -5,7 +5,7 @@
         <GridContainer>
             <div v-for="(print, printIndex) in prints" :key="printIndex">
                 <NuxtLink :to="'/prints/' + print.slug">
-                    <img :src="print.src_border" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
+                    <NuxtImg format="avif" :src="print.src_border" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
                 </NuxtLink>
                 <NuxtLink :to="'/prints/' + print.slug">
                     <p class="text-center mt-2">{{ print.name }}</p>

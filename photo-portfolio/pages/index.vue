@@ -1,16 +1,7 @@
 <template>
     <div>
-        <!-- <div class="grid lg:grid-cols-3 gap-4 xl:gap-12 mb-16 xl:mb-32">
-            <div class="lg:col-span-3 relative flex justify-end order-2 lg:order-1">
-                <div class="flex flex-col gap-6 w-1/2 mx-auto p-6 border border-black bg-white">
-                    <img class="w-full " src="/img/10.png" alt="my photo" />
-                    <h1 class="text-4xl lg:text-6xl font-semibold">Hejka :)</h1>
-                    <p>Witam na stronie poświęconej mojej twórczości.<br>Mam na imię Filip, miło mi Cię poznać.</p>
-                </div>
-            </div>
-        </div> -->
         <div class="grid lg:grid-cols-3 gap-4 xl:gap-12 mt-9 mb-12 xl:mb-32">
-            <img class="col-span-2 w-full" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/homepage_main.png" alt="my photo" /> 
+            <NuxtImg class="col-span-2 w-full" format="avif" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/homepage_main.png" alt="my photo" /> 
             <div class="flex flex-col justify-end">
                 <h1 class="section-header mb-6">Hejka :)</h1>
                 <div class="p-4 border border-black w-full">

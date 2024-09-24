@@ -45,9 +45,6 @@
                 </div>
             </form>
             <Toast position="bottom-left" />
-            <!-- <div class="max-h-">
-                <img class=" object-cover" src="/img/contact.jpg" />
-            </div> -->
             <button class="bg-black px-6 py-3 text-white hover-scale-105" @click="showSuccess">/ Wyślij</button>
         </div>
     </div>

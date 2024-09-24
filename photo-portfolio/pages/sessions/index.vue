@@ -18,7 +18,7 @@
         <div v-else-if="error">{{ error }}</div>
         <div v-else class="grid grid-cols-6 gap-9 xl:gap-12">
             <div v-for="(session, sessionIndex) in sessionTypes" :key="sessionIndex" class="col-span-6 md:col-span-3 lg:col-span-2">
-                <img :src="session.img" />
+                <NuxtImg format="avif" placeholder :src="session.img" />
                 <p class="text-2xl font-semibold my-2 xl:my-4">{{ session.title }}</p>
                 <p>{{ session.desc }}</p>
             </div>

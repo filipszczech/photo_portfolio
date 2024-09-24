@@ -13,7 +13,7 @@
                 <div class="text-xl mt-3 font-semibold">/ portfolio</div>
             </div>
             <div class="w-full sm:w-1/2 lg:w-full my-auto">
-                <img src="/img/ob/ob3.jpg" />
+                <NuxtImg format="avif" placeholder src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/botaniczny/ob3.jpg" />
             </div>
         </div>
     </div>

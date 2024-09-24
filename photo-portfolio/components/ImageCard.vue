@@ -4,11 +4,11 @@
         <div class="overflow-hidden">
             <template v-if="link">
                 <NuxtLink :to="link">
-                    <img :src="src" :alt="desc" class="w-full cursor-pointer hover:scale-105 transition-all duration-300" />
+                    <NuxtImg format="avif" placeholder :src="src" :alt="desc" class="w-full cursor-pointer hover:scale-105 transition-all duration-300" />
                 </NuxtLink>
             </template>
             <template v-else>
-                <img :src="src" :alt="desc" class="cursor-pointer hover:scale-105 transition-all duration-300" />
+                <NuxtImg format="avif" placeholder :src="src" :alt="desc" class="cursor-pointer hover:scale-105 transition-all duration-300" />
             </template>
         </div>
         <p v-if="desc" class="font-semibold xl:text-lg mt-3 lg:mt-5">{{ desc }}</p>

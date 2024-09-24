@@ -25,7 +25,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             <div v-for="(group, index) in reorderedPhotos" :key="index" class="flex flex-col gap-4">
                 <div v-for="(photo, photoIndex) in group" :key="photoIndex" class="photo">
-                    <img :src="photo.src" :alt="photo.alt" class="w-full h-auto object-cover" />
+                    <NuxtImg format="avif" placeholder :src="photo.src" :alt="photo.alt" class="w-full h-auto object-cover" />
                 </div>
             </div>
         </div>

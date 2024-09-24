@@ -12,8 +12,8 @@
         </div>
         <div class="mb-9 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12">
             <div>
-                <img v-if="selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
-                <img v-else-if="selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder v-if="selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder v-else-if="selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
             </div>
             <div>
                 <h1 class="section-header font-semibold mb-3 lg:mb-6">{{ print.name }}</h1>
