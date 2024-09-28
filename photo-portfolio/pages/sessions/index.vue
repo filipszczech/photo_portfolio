@@ -6,9 +6,13 @@
             <span>/</span>
             <span class="ml-2">sesje</span>
         </div>
-        <h1 class="section-header text-center">Sesje</h1>
+        <!-- <h1 class="section-header text-center">Sesje</h1> -->
         <div class="grid grid-cols-6 gap-6 xl:gap-12 mt-6 lg:mt-12 mb-24">
             <img class="col-span-6 lg:col-span-3" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg"/>
+            <div class="col-span-6 lg:col-span-3 flex flex-col justify-center">
+                <h2 class="section-header mb-6">Zapraszam na sesje</h2>
+                <p class="text-xl">Jesteś modelem/modelką?<br>Nie masz doświadczenia w pozowaniu, ale chciałbxś zaczać? Super dawaj!</p>
+            </div>
         </div>
         <h2 class="section-header lg:text-center mb-6 lg:mx-6">Co możemy razem zrobić</h2>
         <p class="border border-black p-4 mb-6 lg:mb-12 w-full md:w-2/3 mx-auto">
@@ -32,8 +36,6 @@
         title: "Gluciak.pl | sesje"
     });
 
-    const supabase = useSupabaseClient();
-
     const sessionTypes = ref([]);
     const error = ref(null);
     const loading = ref(true);
@@ -43,26 +45,20 @@
         error.value = null;
 
         try {
-            const { data: sessionTypesData, error: sessionTypesError } = await supabase
-                .from('session_types')
-                .select();
-
-            if (sessionTypesError) {
-                throw new Error('Error fetching session types: ' + sessionTypesError.message)
-            }
-            sessionTypes.value = sessionTypesData
+            const sessionTypesData = await useSupabaseFetch('session_types');
+            sessionTypes.value = sessionTypesData;
 
         } catch (err) {
-            error.value = err.message
+            error.value = err.message;
         } finally {
-            loading.value = false
-            console.log(sessionTypes.value)
+            loading.value = false;
+            console.log(sessionTypes.value);
         }
     }
 
     onMounted(() => {
         fetchSessionTypes()
-    })
+    });
 
     if(!sessionTypes) {
         throw createError({

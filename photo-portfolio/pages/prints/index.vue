@@ -17,5 +17,10 @@
 </template>
 
 <script setup>
-
+    useHead({
+        title: "Gluciak.pl | printy",
+        meta: [
+            { name: 'description', content: 'Na tej podstronie znajdują się zdjęcia dostępne, jako printy.' }
+        ]
+    });
 </script>

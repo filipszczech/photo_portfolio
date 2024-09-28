@@ -30,7 +30,6 @@
                 <div class="p-4 border border-black">
                     <p class="">Posługuję się praktycznie tylko aparatami analogowymi.</p>
                     <p class="mt-3">Na codzień używam moich dwóch głównych sprzętów: Nikon FG oraz Mamiya 645.<br>Nikon jest aparatem małoformatowym i ze względu na to oraz jego poręczność towarzyszy mi na wyjazdach oraz przy luźniejszych projektach.<br>Kiedy zależy mi na jak najlepszej jakości i mogę sobie na to pozwolić, sięgam po średni format - Mamiyę.</p>
-                    <!-- <p class="text-xl mt-3 font-semibold">/ portfolio.</p> -->
                 </div>
             </div>
             <div class="col-span-3">
@@ -54,6 +53,34 @@
 </template>
 
 <script setup>
+    useSeoMeta({
+        description: 'Filip Szczęch - strona główna portfolio fotograficznego.',
+        ogTitle: 'Gluciak.pl - homepage',
+        ogDescription: 'Filip Szczęch - strona główna portfolio fotograficznego.',
+        ogImage: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg',
+        ogUrl: '[og:url]',
+        twitterTitle: 'strona główna',
+        twitterDescription: 'Filip Szczęch - strona główna portfolio fotograficznego.',
+        twitterImage: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg',
+        twitterCard: 'summary',
+    });
+
+    useHead({
+        title: "Gluciak.pl",
+        meta: [
+            { name: 'description', content: 'Strona główna mojego portfolio fotograficznego.' }
+        ],
+        htmlAttrs: {
+            lang: 'pl'
+        },
+        link: [
+            {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/favicon2.png'
+            }
+        ]
+    });
 </script>
 
 <style scoped>

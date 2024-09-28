@@ -7,7 +7,19 @@ export default defineNuxtConfig({
     head: {
       title: 'Gluciak.pl',
       meta: [
-        { name: "description", content: "Portfolio fotograficzne - odkryj moje prace, zamów unikalne printy, i umów się na sesję fotograficzną. Sprawdź ofertę i skontaktuj się, aby nawiązać ze mną współpracę." }
+        { name: "description", content: "Portfolio fotograficzne - odkryj moje prace, zamów unikalne printy, i umów się na sesję fotograficzną. Sprawdź ofertę i skontaktuj się, aby nawiązać ze mną współpracę." },
+        { property: 'og:url', content: 'https://gluciak.pl' },
+        { property: 'og:title', content: 'Gluciak.pl' },
+        { property: 'og:description', content: 'Filip Szczęch - portfolio fotograficzne.' },
+        { property: 'og:image', content: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg' },
+        { property: 'og:type', content: 'website' },
+
+        { name: 'twitter:title', content: 'Gluciak.pl' },
+        { name: 'twitter:description', content: 'Filip Szczęch - portfolio fotograficzne.' },
+        { name: 'twitter:image', content: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg' },
+        { name: 'twitter:card', content: 'summary' },
+
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/favicon2.png' }

@@ -12,8 +12,8 @@
         </div>
         <div class="mb-9 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12">
             <div>
-                <NuxtImg format="avif" placeholder v-if="selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
-                <NuxtImg format="avif" placeholder v-else-if="selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder class="w-full" v-if="selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder class="w-full" v-else-if="selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
             </div>
             <div>
                 <h1 class="section-header font-semibold mb-3 lg:mb-6">{{ print.name }}</h1>
@@ -25,18 +25,32 @@
                 </div>
                 <div class="mb-3 lg:mb-6">
                     <p class="text-xl mb-2">Ramka</p>
-                    <select v-model="selectedBorder" class="w-48 p-2 bg-inherit border-[1px] border-black">
-                        <option :value="'whiteBorder'">Biała ramka</option>
-                        <option :value="'noBorder'">Bez ramki</option>
-                    </select>
+                    <div class="relative w-48 bg-inherit border-[1px] border-black">
+                        <select v-model="selectedBorder" class="w-full bg-transparent p-2">
+                            <option :value="'whiteBorder'">Biała ramka</option>
+                            <option :value="'noBorder'">Bez ramki</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3 lg:mb-6">
+                <div class="mb-3 lg:mb-6 relative">
                     <p class="text-xl mb-2">Rozmiar</p>
-                    <select v-model="selectedSize" class="w-48 p-2 bg-inherit border-[1px] border-black">
-                        <option v-for="(size, index) in print.sizes" :key="index" :value="size">
-                            {{ size }}
-                        </option>
-                    </select>
+                    <div class="relative w-48 bg-inherit border-[1px] border-black">
+                        <select v-model="selectedSize" class="w-full bg-transparent p-2">
+                            <option v-for="(size, index) in print.sizes" :key="index" :value="size">
+                                {{ size }}
+                            </option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3 lg:mb-6">
                     <p class="mb-3">Specyfikacje</p>
@@ -56,7 +70,6 @@
 
 <script setup>
     const { id } = useRoute().params;
-    const supabase = useSupabaseClient();
 
     const print = ref(null);
     const error = ref(null);
@@ -65,20 +78,12 @@
     const selectedBorder = ref('whiteBorder');
 
     const fetchPrint = async () => {
-        loading.value = true
-        error.value = null
+        loading.value = true;
+        error.value = null;
 
         try {
-            const { data: printData, error: printError } = await supabase
-                .from('prints')
-                .select('*')
-                .eq('slug', id)
-                .single()
-
-            if (printError) {
-                throw new Error('Error fetching print: ' + printError.message)
-            }
-            print.value = printData
+            const printData = await useSupabaseFetch('prints', { slug: id }, true);
+            print.value = printData;
 
         } catch (err) {
             error.value = err.message
@@ -105,3 +110,14 @@
     };
 
 </script>
+
+<style>
+    .is-invalid {
+        background-color: red;
+    }
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+</style>

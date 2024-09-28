@@ -9,27 +9,21 @@
 <script setup>
     const supabase = useSupabaseClient();
 
-    const cameras = ref([])
-    const camerasLoading = ref(true)
-    const camerasError = ref(null)
+    const cameras = ref([]);
+    const camerasLoading = ref(true);
+    const camerasError = ref(null);
 
     const fetchCameras = async () => {
-        camerasLoading.value = true
-        camerasError.value = null
+        camerasLoading.value = true;
+        camerasError.value = null;
 
         try {
-            const { data: cameraData, error: camerasError } = await supabase
-                .from('cameras')
-                .select();
-
-            if (camerasError) {
-                throw new Error('Error fetching cameras: ' + camerasError.message)
-            }
-            cameras.value = cameraData
+            const camerasData = await useSupabaseFetch('cameras');
+            cameras.value = camerasData;
         } catch (err) {
-            camerasError.value = err.message
+            camerasError.value = err.message;
         } finally {
-            camerasLoading.value = false
+            camerasLoading.value = false;
         }
     }
 

@@ -45,39 +45,13 @@
     const fetchSessionAndPhotos = async () => {
         loading.value = true
         error.value = null
-
         try {
-            const { data: sessionData, error: sessionError } = await supabase
-                .from('sessions')
-                .select('*')
-                .eq('slug', id)
-                .single()
-
-            if (sessionError) {
-                throw new Error('Error fetching session: ' + sessionError.message)
-            }
+            const sessionData = await useSupabaseFetch('sessions', { slug: id }, true);
             session.value = sessionData
-
-            const { data: categoryData, error: categoryError } = await supabase
-                .from('categories')
-                .select('*')
-                .eq('id', sessionData.category_id)
-                .single()
-            if (categoryError) {
-                throw new Error('Error fetching category: ' + sessionError.message)
-            }
+            const categoryData = await useSupabaseFetch('categories', { id: sessionData.category_id }, true);
             category.value = categoryData
-
-            const { data: photosData, error: photosError } = await supabase
-                .from('photos')
-                .select('*')
-                .eq('session_id', sessionData.id)
-
-            if (photosError) {
-                throw new Error('Error fetching photos: ' + photosError.message)
-            }
+            const photosData = await useSupabaseFetch('photos', { session_id: sessionData.id });
             photos.value = photosData
-
         } catch (err) {
             error.value = err.message
         } finally {
@@ -92,6 +66,25 @@
     useHead({
         title: "Gluciak.pl | " + session.name
     });
+
+    
+    useHead({
+        title: "Gluciak.pl | ",
+        meta: [
+            { name: 'description', content: 'Na tej podstronie znajdują się zdjęcia z sesji.' }
+        ]
+    });
+
+    watch(
+        () => session.value,
+        (newSession) => {
+            if (newSession && newSession.name) {
+                useHead({
+                    title: "Gluciak.pl | " + newSession.name,
+                });
+            }
+        }
+    );
 
     if(!session) {
         throw createError({
