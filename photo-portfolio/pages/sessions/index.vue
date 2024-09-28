@@ -36,6 +36,12 @@
         title: "Gluciak.pl | sesje"
     });
 
+    useSetSeoData({
+        title: 'sesje',
+        description: `umów się na sesję.`,
+        image: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg',
+    });
+
     const sessionTypes = ref([]);
     const error = ref(null);
     const loading = ref(true);

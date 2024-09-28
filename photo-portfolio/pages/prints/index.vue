@@ -23,4 +23,10 @@
             { name: 'description', content: 'Na tej podstronie znajdują się zdjęcia dostępne, jako printy.' }
         ]
     });
+
+    useSetSeoData({
+        title: 'printy',
+        description: `printy na sprzedaż.`,
+        image: 'https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/balkany%20printy/60920013_print.jpg',
+    });
 </script>

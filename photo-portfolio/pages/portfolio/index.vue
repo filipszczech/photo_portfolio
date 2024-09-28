@@ -25,4 +25,9 @@
     useHead({
         title: 'Gluciak.pl | portfolio'
     });
+
+    useSetSeoData({
+        title: 'portfolio',
+        description: `zobacz moje portfolio.`,
+    });
 </script>

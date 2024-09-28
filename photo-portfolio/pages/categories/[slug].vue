@@ -34,17 +34,15 @@
 
 <script setup>
     const { slug } = useRoute().params;
-    const supabase = useSupabaseClient();
 
-    const category = ref(null)
-    const sessions = ref([])
-    const loading = ref(true)
-    const error = ref(null)
-    const route = useRoute()
+    const category = ref(null);
+    const sessions = ref([]);
+    const loading = ref(true);
+    const error = ref(null);
 
     const fetchCategoryAndSessions = async () => {
-        loading.value = true
-        error.value = null
+        loading.value = true;
+        error.value = null;
 
         try {
             const categoryData = await useSupabaseFetch('categories', { slug: slug }, true);
@@ -60,7 +58,7 @@
     }
 
     onMounted(() => {
-        fetchCategoryAndSessions()
+        fetchCategoryAndSessions();
     })
 
     useHead({
@@ -70,24 +68,14 @@
         ]
     });
 
-    useSeoMeta({
-        description: `Filip Szczęch - zdjęcia z kategorii ${category.name}`,
-        ogTitle: `Gluciak.pl - ${category.name}`,
-        ogDescription: `Zobacz zdjęcia z kategorii ${category.name} na stronie Filip Szczęch.`,
-        ogImage: category.image,
-        ogUrl: `https://gluciak.pl/${route.fullPath}`,
-        twitterTitle: `Kategoria: ${category.name}`,
-        twitterDescription: `Portfolio Filip Szczęch - zdjęcia z kategorii ${category.name}.`,
-        twitterImage: category.image,
-        twitterCard: 'summary_large_image',
-    })
-
     watch(
         () => category.value,
         (newCategory) => {
             if (newCategory && newCategory.name) {
-                useHead({
-                    title: "Gluciak.pl | " + newCategory.name.toLowerCase(),
+                useSetSeoData({
+                    title: newCategory.name,
+                    description: `zdjęcia z kategorii ${newCategory.name.toLowerCase()}.`,
+                    image: newCategory.img,
                 });
             }
         }

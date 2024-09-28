@@ -98,8 +98,24 @@
     })
 
     useHead({
-        title: "Gluciak.pl | " + print.name
+        title: "Gluciak.pl | ",
+        meta: [
+            { name: 'description', content: 'Na tej podstronie znajduje się print na sprzedaż.' }
+        ]
     });
+
+    watch(
+        () => print.value,
+        (newPrint) => {
+            if (newPrint && newPrint.name) {
+                useSetSeoData({
+                    title: newPrint.name,
+                    description: `print na sprzedaż: ${newPrint.name.toLowerCase()}.`,
+                    image: newPrint.src,
+                });
+            }
+        }
+    );
 
     if(!print) {
         throw createError({

@@ -79,8 +79,10 @@
         () => session.value,
         (newSession) => {
             if (newSession && newSession.name) {
-                useHead({
-                    title: "Gluciak.pl | " + newSession.name,
+                useSetSeoData({
+                    title: newSession.name,
+                    description: `zdjęcia z sesji ${newSession.name.toLowerCase()}.`,
+                    image: newSession.img,
                 });
             }
         }
