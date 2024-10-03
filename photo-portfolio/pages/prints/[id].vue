@@ -1,6 +1,6 @@
 <template>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-if="pending">Loading...</div>
+    <div v-else-if="error">{{ error.message }}</div>
     <div v-else>
         <div class="mt-6 mb-9">
             <span>/</span>
@@ -69,62 +69,23 @@
 </template>
 
 <script setup>
-    const { id } = useRoute().params;
+const { id } = useRoute().params;
 
-    const print = ref(null);
-    const error = ref(null);
-    const loading = ref(true);
-    const selectedSize = ref('');
-    const selectedBorder = ref('whiteBorder');
+const selectedSize = ref('');
+const selectedBorder = ref('whiteBorder');
 
-    const fetchPrint = async () => {
-        loading.value = true;
-        error.value = null;
+const { data: print, pending, error } = await useAsyncData('print', () =>
+    useSupabaseFetch('prints', { slug: id }, true)
+);
 
-        try {
-            const printData = await useSupabaseFetch('prints', { slug: id }, true);
-            print.value = printData;
-
-        } catch (err) {
-            error.value = err.message
-        } finally {
-            loading.value = false
-            selectedSize.value = print.value.sizes[0];
-        }
-    }
-
-    onMounted(() => {
-        fetchPrint()
-    })
-
-    useHead({
-        title: "Gluciak.pl | ",
-        meta: [
-            { name: 'description', content: 'Na tej podstronie znajduje się print na sprzedaż.' }
-        ]
+if (print.value) {
+    selectedSize.value = print.value.sizes[0];
+    useSetSeoData({
+        title: print.value.name,
+        description: `print na sprzedaż: ${print.value.name.toLowerCase()}.`,
+        image: print.value.src,
     });
-
-    watch(
-        () => print.value,
-        (newPrint) => {
-            if (newPrint && newPrint.name) {
-                useSetSeoData({
-                    title: newPrint.name,
-                    description: `print na sprzedaż: ${newPrint.name.toLowerCase()}.`,
-                    image: newPrint.src,
-                });
-            }
-        }
-    );
-
-    if(!print) {
-        throw createError({
-            statusCode: 404,
-            statusMessage: 'Nie znaleziono printa o takiej nazwie.',
-            fatal: true
-        });
-    };
-
+}
 </script>
 
 <style>

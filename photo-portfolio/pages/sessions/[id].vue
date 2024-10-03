@@ -1,6 +1,6 @@
-<template>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+<template :key="session.id">
+    <div v-if="pending">Loading...</div>
+    <div v-else-if="error">{{ error.message }}</div>
     <div v-else>
         <div class="mb-9">
             <div class="mb-6">
@@ -33,78 +33,56 @@
 </template>
 
 <script setup>
-    const { id } = useRoute().params;
-    const supabase = useSupabaseClient();
+const { id } = useRoute().params;
 
-    const session = ref(null)
-    const photos = ref([])
-    const category = ref(null)
-    const loading = ref(true)
-    const error = ref(null)
+const { data: session, pending, error } = await useAsyncData('session', () =>
+    useSupabaseFetch('sessions', { slug: id }, true)
+);
 
-    const fetchSessionAndPhotos = async () => {
-        loading.value = true
-        error.value = null
-        try {
-            const sessionData = await useSupabaseFetch('sessions', { slug: id }, true);
-            session.value = sessionData
-            const categoryData = await useSupabaseFetch('categories', { id: sessionData.category_id }, true);
-            category.value = categoryData
-            const photosData = await useSupabaseFetch('photos', { session_id: sessionData.id });
-            photos.value = photosData
-        } catch (err) {
-            error.value = err.message
-        } finally {
-            loading.value = false
-        }
-    }
+const { data: category } = await useAsyncData('category', () => 
+    useSupabaseFetch('categories', { id: session.value.category_id }, true)
+);
 
-    onMounted(() => {
-        fetchSessionAndPhotos()
-    })
+const { data: photos } = await useAsyncData('photos', () => 
+    useSupabaseFetch('photos', { session_id: session.value.id })
+);
 
-    useHead({
-        title: "Gluciak.pl | " + session.name
+if (session.value) {
+    useSetSeoData({
+        title: session.value.name,
+        description: `zdjęcia z sesji ${session.value.name.toLowerCase()}.`,
+        image: session.value.img,
     });
+}
 
-    
-    useHead({
-        title: "Gluciak.pl | ",
-        meta: [
-            { name: 'description', content: 'Na tej podstronie znajdują się zdjęcia z sesji.' }
-        ]
+if (!session.value) {
+    throw createError({
+        statusCode: 404,
+        statusMessage: 'Nie znaleziono sesji o takiej nazwie.',
+        fatal: true
     });
+}
 
-    watch(
-        () => session.value,
-        (newSession) => {
-            if (newSession && newSession.name) {
-                useSetSeoData({
-                    title: newSession.name,
-                    description: `zdjęcia z sesji ${newSession.name.toLowerCase()}.`,
-                    image: newSession.img,
-                });
-            }
-        }
-    );
-
-    if(!session) {
-        throw createError({
-            statusCode: 404,
-            statusMessage: 'Nie znaleziono sesji o takiej nazwie.',
-            fatal: true
-        });
-    };
-
-    const groupedPhotos = computed(() => {
-        const groups = [[], [], []];
-        photos.value.forEach((photo, index) => {
-            groups[index % 3].push(photo);
-        });
-        return groups;
+const groupedPhotos = computed(() => {
+    const groups = [[], [], []];
+    photos.value.forEach((photo, index) => {
+        groups[index % 3].push(photo);
     });
-    const reorderedPhotos = computed(() => {
-        return [groupedPhotos.value[0], groupedPhotos.value[2], groupedPhotos.value[1]];
-    });
+    return groups;
+});
 
+const reorderedPhotos = computed(() => {
+    return [groupedPhotos.value[0], groupedPhotos.value[2], groupedPhotos.value[1]];
+});
 </script>
+
+<style>
+.is-invalid {
+    background-color: red;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+</style>

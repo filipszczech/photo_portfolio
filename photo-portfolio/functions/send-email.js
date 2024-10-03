@@ -1,7 +1,15 @@
 const nodemailer = require('nodemailer');
 
 export default async function sendEmail(req, res) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method not allowed' });
+    }
+
     const { from, subject, text } = req.body;
+
+    if (!from || !subject || !text) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -20,8 +28,8 @@ export default async function sendEmail(req, res) {
 
     try {
         let info = await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: 'Email sent', info: info.response });
+        return res.status(200).json({ message: 'Email sent successfully', info: info.response });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ message: 'Error sending email', error: error.message });
     }
 };

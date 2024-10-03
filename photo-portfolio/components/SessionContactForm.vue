@@ -5,7 +5,7 @@
             <div class="col-span-2 p-4 border border-black">
                 <p v-html="contentStore.SessionContactFormText"></p>
             </div>
-            <form @submit="onSubmit" class="col-span-2 grid grid-cols-2 gap-6 xl:gap-9">
+            <form @submit.prevent="onSubmit" class="col-span-2 grid grid-cols-2 gap-6 xl:gap-9">
                 <div class="col-span-2 md:col-span-1 relative">
                     <input type="email" placeholder="Email *" v-model="email" v-bind="emailAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
                     <p class="absolute -bottom-6">{{ errors.email }}</p>
@@ -69,7 +69,8 @@
             name: '',
             email: '',
             phone: '',
-            date: ''
+            date: '',
+            message: '',
         },
         validationSchema: yup.object().shape({
             email: yup.string().email('Wprowadź poprawny email.').required('Uzupełnij adres email.'),
@@ -81,17 +82,35 @@
         }),
     });
 
-    // const onSubmit = handleSubmit(values => {
-    //     console.log(values);
-    //     resetForm();
+    // const onSubmit = handleSubmit(async (values) => {
+    //     try {
+    //         console.log('Wiadomość wysłana:', values);
+    //         toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000, styleClass: 'p-toast-message' });
+    //         resetForm();
+    //     } catch (error) {
+    //         console.error('Błąd podczas wysyłania wiadomości:', error);
+    //     }
     // });
 
     const onSubmit = handleSubmit(async (values) => {
         try {
-            console.log('Wiadomość wysłana:', values);
-            toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000, styleClass: 'p-toast-message' });
-            resetForm();
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
+                //resetForm();
+            } else {
+                throw new Error('Nie udało się wysłać wiadomości.');
+            }
         } catch (error) {
+            toast.add({ severity: 'error', summary: 'Błąd', detail: error.message, life: 3000 });
             console.error('Błąd podczas wysyłania wiadomości:', error);
         }
     });
