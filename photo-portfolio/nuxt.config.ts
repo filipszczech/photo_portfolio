@@ -28,12 +28,33 @@ export default defineNuxtConfig({
   },
   plugins: ['@/plugins/primevue.js'],
   modules: [
-    '@nuxtjs/tailwindcss',
-    '@formkit/nuxt',
-    "@nuxtjs/supabase",
-    "@pinia/nuxt",
-    "@nuxt/image"
+    '@nuxtjs/tailwindcss', 
+    '@formkit/nuxt', 
+    "@nuxtjs/supabase", 
+    "@pinia/nuxt", 
+    "@nuxt/image", 
+    ['nuxt-mail', {
+      smtp: {
+        service: 'gmail',
+        auth: {
+          user: 'filipszczech4@gmail.com',
+          pass: process.env.EMAIL_PASS,
+        },
+      },
+    }],
   ],
+  mail: {
+    message: {
+      to: 'filipszczech4@gmail.com',
+    },
+    smtp: {
+      service: 'gmail',
+      auth: {
+        user: 'filipszczech4@gmail.com',
+        pass: process.env.EMAIL_PASS,
+      },
+    },
+  },
   formkit: {
     autoImport: true
   },

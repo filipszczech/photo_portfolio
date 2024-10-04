@@ -21,7 +21,7 @@
                     <p>{{ print.desc }}</p>
                 </div>
                 <div class="mb-3 lg:mb-6">
-                    <p>Cena: {{ print.price }}zł</p>
+                    <p>Cena: {{ print.sizes[selectedSize] }}zł</p>
                 </div>
                 <div class="mb-3 lg:mb-6">
                     <p class="text-xl mb-2">Ramka</p>
@@ -41,7 +41,7 @@
                     <p class="text-xl mb-2">Rozmiar</p>
                     <div class="relative w-48 bg-inherit border-[1px] border-black">
                         <select v-model="selectedSize" class="w-full bg-transparent p-2">
-                            <option v-for="(size, index) in print.sizes" :key="index" :value="size">
+                            <option v-for="(price, size) in print.sizes" :key="size" :value="size">
                                 {{ size }}
                             </option>
                         </select>
@@ -59,33 +59,65 @@
                         <li class="ml-6">210gsm</li>
                         <li class="ml-6">Papier półmatowy wysokiej jakości</li>
                         <li class="ml-6">Każdy print jest starannie zapakowany i przetestowany</li>
-                        <li class="ml-6">Wymiary dobrałem tak, aby łatwo było dobrać ramkę</li>
+                        <li class="ml-6">Wymiary dobrałem tak, aby łatwo było dopasować ramkę</li>
                     </ul>
                 </div>
-                <button class="bg-transparent w-48 py-2 border border-black hover-scale-105">zamów print</button>
+                <button @click="openModal" class="bg-transparent w-48 py-2 border border-black hover-scale-105">zamów print</button>
             </div>
         </div>
+        <PrintModal
+            :showModal="isModalVisible"
+            :selectedSize="selectedSize"
+            :selectedBorder="selectedBorder"
+            :price="print.sizes[selectedSize]"
+            @close="isModalVisible = false"
+            @submit="handleSubmit"
+        />
     </div>
 </template>
 
 <script setup>
-const { id } = useRoute().params;
+    const { id } = useRoute().params;
 
-const selectedSize = ref('');
-const selectedBorder = ref('whiteBorder');
+    const selectedSize = ref('');
+    const selectedBorder = ref('whiteBorder');
+    const isModalVisible = ref(false);
+    const mail = useMail();
 
-const { data: print, pending, error } = await useAsyncData('print', () =>
-    useSupabaseFetch('prints', { slug: id }, true)
-);
+    const { data: print, pending, error } = await useAsyncData('print', () =>
+        useSupabaseFetch('prints', { slug: id }, true)
+    );
 
-if (print.value) {
-    selectedSize.value = print.value.sizes[0];
-    useSetSeoData({
-        title: print.value.name,
-        description: `print na sprzedaż: ${print.value.name.toLowerCase()}.`,
-        image: print.value.src,
-    });
-}
+    if (print.value) {
+        selectedSize.value = Object.keys(print.value.sizes)[0];
+        useSetSeoData({
+            title: print.value.name,
+            description: `print na sprzedaż: ${print.value.name.toLowerCase()}.`,
+            image: print.value.src,
+        });
+    }
+
+    const openModal = () => {
+        isModalVisible.value = true;
+    };
+
+    const handleSubmit = (formData) => {
+        console.log('Zamówienie:', formData);
+
+        mail.send({
+            from: formData.email,
+            subject: `Zamówienie printa od ${formData.email}.`,
+            text: `
+                Dane dotyczące zamówienia:
+                Imię i nazwisko: ${formData.name}
+                Email: ${formData.email}
+                Numer telefonu: ${formData.phone ? formData.phone : '-'}
+                Nazwa printa: ${print.value.name}
+                Rozmiar printa: ${selectedSize.value}
+                Ramka: ${selectedBorder.value === 'whiteBorder' ? 'z ramką' : 'bez ramki'}
+            `,
+        })
+    };
 </script>
 
 <style>

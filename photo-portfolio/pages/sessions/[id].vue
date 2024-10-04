@@ -16,7 +16,18 @@
             <h1 class="text-6xl font-semibold text-center mb-6">{{ session.name }}</h1>
             <p class="text-center xl:w-1/2 mx-auto">{{ session.desc }}</p>
             <div class="p-4 border border-black lg:w-1/3 mx-auto mt-6">
-                <p class="">/ Modelka: @Wiktoria</p>
+                <p v-if="session.models">
+                    / Model:
+                    <span v-for="(link, name) in session.models" :key="name">
+                        <template v-if="link">
+                            <a :href="link" target="_blank" class="underline">@{{ name }}</a>
+                        </template>
+                        <template v-else>
+                            {{ name }}
+                        </template>
+                        <span v-if="Object.keys(session.models).length > 1 && name !== Object.keys(session.models).pop()">, </span>
+                    </span>
+                </p>
                 <p>/ Aparat: Mamiya 645</p>
                 <p class="">/ Obiektyw: Mamiya Sekkor C 105mm</p>
                 <p class="">/ Film: Lomography 400</p>
