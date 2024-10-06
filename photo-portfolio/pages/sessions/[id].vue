@@ -1,19 +1,27 @@
 <template :key="session.id">
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">{{ error.message }}</div>
+    <div v-if="photosPending || categoryPending || sessionPending">Loading...</div>
+    <div v-else-if="photosError || categoryError || sessionError">{{ error.message }}</div>
     <div v-else>
         <div class="mb-9">
-            <div class="mb-6">
-                <span>/</span>
-                <NuxtLink class="mx-2" to="/">Strona główna</NuxtLink>
-                <span>/</span>
-                <NuxtLink class="mx-2" to="/portfolio">portfolio</NuxtLink>
-                <span>/</span>
-                <NuxtLink class="mx-2" :to="'/categories/' + category.slug"><span class="mx-2">{{ category.name.toLowerCase() }}</span></NuxtLink>
-                <span>/</span>
-                <span class="ml-2">{{ session.name.toLowerCase() }}</span>
+            <div class="my-6 flex gap-2 flex-wrap">
+                <div>
+                    <span>/</span>
+                    <NuxtLink class="ml-2" to="/">Strona główna</NuxtLink>
+                </div>
+                <div>
+                    <span>/</span>
+                    <NuxtLink class="ml-2" to="/portfolio">portfolio</NuxtLink>
+                </div>
+                <div>
+                    <span>/</span>
+                    <NuxtLink class="ml-2" :to="'/categories/' + category.slug"><span class="mx-2">{{ category.name.toLowerCase() }}</span></NuxtLink>
+                </div>
+                <div>
+                    <span>/</span>
+                    <span class="ml-2">{{ session.name.toLowerCase() }}</span>
+                </div>
             </div>
-            <h1 class="text-6xl font-semibold text-center mb-6">{{ session.name }}</h1>
+            <h1 class="section-header font-semibold text-center mb-4 md:mb-6">{{ session.name }}</h1>
             <p class="text-center xl:w-1/2 mx-auto">{{ session.desc }}</p>
             <div class="p-4 border border-black lg:w-1/3 mx-auto mt-6">
                 <p v-if="session.models">
@@ -46,15 +54,15 @@
 <script setup>
 const { id } = useRoute().params;
 
-const { data: session, pending, error } = await useAsyncData('session', () =>
+const { data: session, sessionPending, sessionError } = await useAsyncData('session', () =>
     useSupabaseFetch('sessions', { slug: id }, true)
 );
 
-const { data: category } = await useAsyncData('category', () => 
+const { data: category, categoryPending, categoryError } = await useAsyncData('category', () => 
     useSupabaseFetch('categories', { id: session.value.category_id }, true)
 );
 
-const { data: photos } = await useAsyncData('photos', () => 
+const { data: photos, photosPending, photosError } = await useAsyncData('photos', () => 
     useSupabaseFetch('photos', { session_id: session.value.id })
 );
 

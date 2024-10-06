@@ -11,11 +11,11 @@
                     <p class="absolute -bottom-6">{{ errors.email }}</p>
                 </div>
                 <div class="col-span-2 md:col-span-1 relative">
-                    <input type="name" placeholder="Imię *" v-model="name" v-bind="nameAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
+                    <input type="text" placeholder="Imię *" v-model="name" v-bind="nameAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
                     <p class="absolute -bottom-6">{{ errors.name }}</p>
                 </div>
                 <div class="col-span-2 md:col-span-1 relative">
-                    <input  id="phone" placeholder="Telefon" v-model="phone" v-bind="phoneAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
+                    <input type="phone" id="phone" placeholder="Telefon" v-model="phone" v-bind="phoneAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
                     <p class="absolute -bottom-6">{{ errors.phone }}</p>
                 </div>
                 <div class="col-span-2 md:col-span-1 relative">
@@ -54,8 +54,18 @@
     import { ref, watch } from 'vue';
     import { useContentStore } from '~/stores/content';
     const contentStore = useContentStore();
+    const mail = useMail();
     
     const { errors, handleSubmit, resetForm, defineField, setFieldValue } = useForm({
+        initialValues: {
+            selectedSubject: '',
+            name: '',
+            email: '',
+            phone: '',
+            date: '',
+            message: '',
+            date: '',
+        },
         validationSchema: yup.object().shape({
             email: yup.string().email('Wprowadź poprawny email.').required('Uzupełnij adres email.'),
             name: yup.string().required('Uzupełnij imię.'),
@@ -72,14 +82,19 @@
         }),
     });
 
-    // const onSubmit = handleSubmit(values => {
-    //     console.log(values);
-    //     resetForm();
-    // });
-
     const onSubmit = handleSubmit(async (values) => {
         try {
-            console.log('Wiadomość wysłana:', values);
+            mail.send({
+                from: values.email,
+                subject: `Wiadomość od ${values.email}.`,
+                text: `
+                    Imię i nazwisko: ${values.name}
+                    Email: ${values.email}
+                    Numer telefonu: ${values.phone ? values.phone : '-'}
+                    Temat wiadomości: ${values.selectedSubject}
+                    Dodatkowe informacje: ${values.message ? values.message : '-'}
+                `,
+            });
             resetForm();
         } catch (error) {
             console.error('Błąd podczas wysyłania wiadomości:', error);

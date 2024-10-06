@@ -1,4 +1,4 @@
-<template>
+<template :key="print.id">
     <div v-if="pending">Loading...</div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else>
@@ -12,8 +12,32 @@
         </div>
         <div class="mb-9 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12">
             <div>
-                <NuxtImg format="avif" placeholder class="w-full" v-if="selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
-                <NuxtImg format="avif" placeholder class="w-full" v-else-if="selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
+                <!-- główny obraz -->
+                <NuxtImg format="avif" placeholder class="w-full mb-6" v-if="selectedImageType === 'print' && selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder class="w-full mb-6" v-else-if="selectedImageType === 'print' && selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
+                <NuxtImg format="avif" placeholder class="w-full mb-6" 
+                    v-if="selectedImageType === 'visualization'" 
+                    src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/test_print.jpg" 
+                    :alt="'print - ' + print.name + ' visualization'" />
+                <!-- miniaturki obrazków do wybrania obrazu głównego -->
+                <div class="grid grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-6">
+                    <div @click="selectedImageType = 'print'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'print'}">
+                        <NuxtImg format="avif" placeholder class="w-full" 
+                            v-if="selectedBorder === 'noBorder'" 
+                            :src="print.src" 
+                            :alt="'print - ' + print.name" />
+                        <NuxtImg format="avif" placeholder class="w-full" 
+                            v-if="selectedBorder === 'whiteBorder'" 
+                            :src="print.src_border" 
+                            :alt="'print - ' + print.name" />
+                    </div>
+                    <!-- wizualizacja -->
+                    <div @click="selectedImageType = 'visualization'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'visualization'}" >
+                        <NuxtImg format="avif" placeholder class="w-full" 
+                            src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/test_print.jpg" 
+                            :alt="'print - ' + print.name + ' visualization'" />
+                    </div>
+                </div>
             </div>
             <div>
                 <h1 class="section-header font-semibold mb-3 lg:mb-6">{{ print.name }}</h1>
@@ -81,6 +105,7 @@
 
     const selectedSize = ref('');
     const selectedBorder = ref('whiteBorder');
+    const selectedImageType = ref('print');
     const isModalVisible = ref(false);
     const mail = useMail();
 
@@ -117,6 +142,14 @@
                 Ramka: ${selectedBorder.value === 'whiteBorder' ? 'z ramką' : 'bez ramki'}
             `,
         })
+    };
+
+    if (!print.value) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'Nie znaleziono printa o takiej nazwie.',
+            fatal: true
+        });
     };
 </script>
 

@@ -12,11 +12,25 @@
                 Nie sądziłem, że fotografia z hobby może się zmienić w mój sposób na zarabianie pieniędzy. Traktuję to jako pasję i zawodowo zajmuję się czymś zupełnie innym. Z drugiej strony, jestem dumny z tego co tworzę i postanowiłem spróbować swoich sił w sprzedaży printów.<br>W sierpniu 2024 wybrałem się z ziomami na tripa busem po Bałkanach i przywiozłem stamtąd oprócz pięknych wspomnień trochę dobrych zdjęć. Stąd też powstał pomysł na pierwszą serię druków.
             </p>
         </div>
-        <PrintsGrid />
+        <GridContainer>
+            <div v-for="(print, printIndex) in prints" :key="printIndex">
+                <NuxtLink :to="'/prints/' + print.slug">
+                    <NuxtImg format="avif" :src="print.src_border" alt="print" class="cursor-pointer hover:shadow-xl transition-all duration-500" />
+                </NuxtLink>
+                <NuxtLink :to="'/prints/' + print.slug">
+                    <p class="text-center mt-2">{{ print.name }}</p>
+                </NuxtLink>
+            </div>
+        </GridContainer>
     </div>
 </template>
 
 <script setup>
+
+    const { data: prints, pending, error } = useAsyncData('prints', async () => {
+        return await useSupabaseFetch('prints');
+    });
+    
     useSetSeoData({
         title: 'printy',
         description: `Lista printów na sprzedaż.`,

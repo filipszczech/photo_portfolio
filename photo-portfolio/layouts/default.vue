@@ -3,9 +3,9 @@
         <header>
             <nav class="fixed top-0 w-full bg-[#EFEEEA] z-50">
                 <div class="w-full flex justify-between items-center bg-[#EFEEEA] px-4 py-8 xl:px-12 xl:py-12">
-                    <div>
+                    <a href="https://www.instagram.com/gluciakpl/" target="_blank">
                         <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
-                    </div>
+                    </a>
                     <NuxtLink to="/" class="absolute-center">
                         <div class="text-2xl font-bold h-10">
                             <img class="h-full" src="/img/logo3.png" />
@@ -35,17 +35,21 @@
         <div class="p-6 xl:p-12 mt-16 lg:mt-24 max-w-[92rem] mx-auto">
             <slot />
         </div>
-        <footer class="p-4 xl:p-12">
-            <div class="flex flex-col md:flex-row gap-4 justify-between">
-                <div></div>
-                <ul class="flex flex-wrap mx-auto justify-center gap-4 xl:gap-12 font-semibold">
+        <footer class="px-4 py-4 xl:px-12 xl:py-9">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-center lg:text-left">Designed and coded by Filip Szczęch.</p>
+                </div>
+                <ul class="flex flex-wrap mx-auto justify-center gap-4 xl:gap-9 font-semibold">
                     <li v-for="(link, index) in footerLinks" :key="index" class="flex gap-4 xl:gap-12">
                         <NuxtLink :to="link.link" class="hover-scale-105">{{ link.name }}</NuxtLink>
                         <div v-if="index < footerLinks.length - 1">/</div>
                     </li>
                 </ul>
-                <div class="mx-auto lg:mx-0">
-                    <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
+                <div class="flex justify-end mx-auto lg:mx-0">
+                    <a href="https://www.instagram.com/gluciakpl/" target="_blank">
+                        <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
+                    </a>
                 </div>
             </div>
         </footer>

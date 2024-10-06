@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 class="section-header font-semibold mb-6">test</h1>
-        <div class="grid grid-cols-3 gap-12">
+        <h1 class="section-header font-semibold mb-6">coming soon</h1>
+        <!-- <div class="grid grid-cols-3 gap-12">
             <div class="p-4 border border-black col-span-2">
                 <p></p>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

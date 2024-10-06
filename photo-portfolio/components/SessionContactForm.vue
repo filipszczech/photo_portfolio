@@ -1,5 +1,5 @@
 <template>
-    <div class="my-16 lg:my-32">
+    <div class="my-8 lg:my-20">
         <h2 class="section-header mb-4 xl:mb-12">Umów się na sesję</h2>
         <div class="grid grid-cols-2 md:grid-cols-3  gap-6 xl:gap-9">
             <div class="col-span-2 p-4 border border-black">
@@ -33,7 +33,7 @@
                     <p class="absolute -bottom-6">{{ errors.selectedSubject }}</p>
                 </div>
                 <div class="relative col-span-2">
-                    <input type="date" placeholder="Wybierz termin *" v-model="date" v-bind="dateAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
+                    <input type="date" :min="today" placeholder="Wybierz termin *" v-model="date" v-bind="dateAttrs" class="w-full p-3 bg-inherit border-[1px] border-black" />
                     <p class="absolute -bottom-6">{{ errors.date }}</p>
                 </div>
                 <div class="relative col-span-2">
@@ -44,8 +44,8 @@
                     <button class="bg-black px-6 py-3 text-white hover-scale-105">/ Wyślij</button>
                 </div>
             </form>
-            <Toast position="bottom-left" />
-            <button class="bg-black px-6 py-3 text-white hover-scale-105" @click="showSuccess">/ Wyślij</button>
+            <!-- <Toast position="bottom-left" /> -->
+            <!-- <button class="bg-black px-6 py-3 text-white hover-scale-105" @click="showSuccess">/ Wyślij</button> -->
         </div>
     </div>
 </template>
@@ -57,6 +57,8 @@
     import Toast from 'primevue/toast';
     import { useToast } from "primevue/usetoast";
     const toast = useToast();
+    const today = new Date().toISOString().split('T')[0];
+    const mail = useMail();
 
     const showSuccess = () => {
         toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
@@ -82,35 +84,22 @@
         }),
     });
 
-    // const onSubmit = handleSubmit(async (values) => {
-    //     try {
-    //         console.log('Wiadomość wysłana:', values);
-    //         toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000, styleClass: 'p-toast-message' });
-    //         resetForm();
-    //     } catch (error) {
-    //         console.error('Błąd podczas wysyłania wiadomości:', error);
-    //     }
-    // });
-
     const onSubmit = handleSubmit(async (values) => {
         try {
-            const response = await fetch('/api/sendEmail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
+            mail.send({
+                from: values.email,
+                subject: `Prośba o sesję dla ${values.name}.`,
+                text: `
+                    Imię i nazwisko: ${values.name}
+                    Email: ${values.email}
+                    Numer telefonu: ${values.phone ? values.phone : '-'}
+                    Typ sesji: ${values.selectedSubject}
+                    Wybrana data: ${values.date}
+                    Dodatkowe informacje: ${values.message ? values.message : '-'}
+                `,
             });
-
-            if (response.ok) {
-                const result = await response.json();
-                toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
-                //resetForm();
-            } else {
-                throw new Error('Nie udało się wysłać wiadomości.');
-            }
+            resetForm();
         } catch (error) {
-            toast.add({ severity: 'error', summary: 'Błąd', detail: error.message, life: 3000 });
             console.error('Błąd podczas wysyłania wiadomości:', error);
         }
     });

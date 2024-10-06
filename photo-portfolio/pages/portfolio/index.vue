@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div class="my-6">
+            <span>/</span>
+            <NuxtLink class="mx-2" to="/">strona główna</NuxtLink>
+            <span>/</span>
+            <span class="ml-2">portfolio</span>
+        </div>
         <h1 class="section-header my-6">Portfolio</h1>
         <div class="grid grid-cols-3 gap-6 lg:gap-12">
             <div class="p-4 border border-black col-span-3 lg:col-span-2">
