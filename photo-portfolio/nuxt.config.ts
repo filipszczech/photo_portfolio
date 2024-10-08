@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       smtp: {
         service: 'gmail',
         auth: {
-          user: 'filipszczech4@gmail.com',
+          user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         },
       },
@@ -45,12 +45,12 @@ export default defineNuxtConfig({
   ],
   mail: {
     message: {
-      to: 'filipszczech4@gmail.com',
+      to: process.env.EMAIL_USER,
     },
     smtp: {
       service: 'gmail',
       auth: {
-        user: 'filipszczech4@gmail.com',
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     },

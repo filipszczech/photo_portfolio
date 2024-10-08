@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="grid lg:grid-cols-3 gap-4 xl:gap-12 mt-9 mb-12 xl:mb-32">
-            <NuxtImg class="col-span-2 w-full" format="avif" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/homepage_main.png" alt="my photo" /> 
-            <div class="flex flex-col justify-end">
+            <NuxtImg class="lg:col-span-2 w-full order-2 lg:order-1" format="avif" src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/homepage_main.png" alt="my photo" /> 
+            <div class="flex flex-col justify-end order-1 lg:order-2">
                 <h1 class="section-header mb-6">Hejka :)</h1>
                 <div class="p-4 border border-black w-full">
                     <p>Witam na stronie poświęconej mojej twórczości.<br>Mam na imię Filip, miło mi Cię poznać.</p>
@@ -12,10 +12,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-12">
             <div class="flex flex-col justify-end lg:col-span-2">
                 <h1 class="section-header mb-6">Foty</h1>
-                <div class="p-4 border border-black xl:mb-12">
+                <div class="p-4 border border-black mb-6 xl:mb-12">
                     <p class="">Tutaj znajdziesz zdjęcia, które wykonałem. Zapraszam do sprawdzenia. :)</p>
                     <p class="mt-3">Głównym tematem zdjęć, które robię są ludzie i moje otoczenie, ale zdarzają się odstępstwa. Kiedy gdzieś jadę, zawsze mam pod ręką aparat.</p>
-                    <p class="text-lg mt-3 font-semibold">/ portfolio.</p>
+                    <NuxtLink to='/portfolio'>
+                        <p class="text-lg mt-3 font-semibold">/ portfolio.</p>
+                    </NuxtLink>
                 </div>
             </div>
             <div></div>
@@ -38,10 +40,10 @@
         </div>
         <div class="mt-16 xl:mt-32">
             <div class="grid grid-cols-3 gap-6 xl:gap-12">
-                <div class="col-span-2">
+                <div class="col-span-3 lg:col-span-2">
                     <h2 class="section-header mb-6">Printy</h2>
                     <div class="p-4 border border-black w-full mb-6 xl:mb-12">
-                        <p class="mb-6">Printy Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci dolor natus eum beatae et enim molestias aut ab quam tenetur.</p>
+                        <p class="mb-6">Planuję wrzucać tutaj serie tematycznych printów. Na początek zdjęcia z wyjazdu z przyjaciółmi wokół Bałkanów. Mam nadzieję, że Ci się spodobają. :)</p>
                         <NuxtLink class="font-semibold w-fit" to="/prints"><p>/ zobacz wszystkie</p></NuxtLink>
                     </div>
                 </div>

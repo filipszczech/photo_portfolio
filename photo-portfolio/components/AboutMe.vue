@@ -10,7 +10,9 @@
                     <p class="mr-6 text-xl md:text-2xl mb-3 font-semibold">Jestem fotografem z przypadku.</p>
                     <p class="p-4 border border-black" v-html="contentStore.introText"></p>
                 </div> 
-                <div class="text-xl mt-3 font-semibold">/ portfolio</div>
+                <NuxtLink to='/portfolio'>
+                    <div class="text-xl mt-3 font-semibold">/ portfolio</div>
+                </NuxtLink>
             </div>
             <div class="w-full sm:w-1/2 lg:w-full my-auto">
                 <NuxtImg format="avif" placeholder src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/botaniczny/ob3.jpg" />

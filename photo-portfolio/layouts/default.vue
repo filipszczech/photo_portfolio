@@ -36,17 +36,17 @@
             <slot />
         </div>
         <footer class="px-4 py-4 xl:px-12 xl:py-9">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div>
-                    <p class="text-center lg:text-left">Designed and coded by Filip Szczęch.</p>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                <div class="order-2 lg:order-1">
+                    <p class="text-center xl:text-left">Designed and coded by Filip Szczęch.</p>
                 </div>
-                <ul class="flex flex-wrap mx-auto justify-center gap-4 xl:gap-9 font-semibold">
-                    <li v-for="(link, index) in footerLinks" :key="index" class="flex gap-4 xl:gap-12">
+                <ul class="order-1 xl:order-2 flex flex-wrap mx-auto justify-center gap-4 2xl:gap-7 font-semibold">
+                    <li v-for="(link, index) in footerLinks" :key="index" class="flex gap-4 2xl:gap-7">
                         <NuxtLink :to="link.link" class="hover-scale-105">{{ link.name }}</NuxtLink>
                         <div v-if="index < footerLinks.length - 1">/</div>
                     </li>
                 </ul>
-                <div class="flex justify-end mx-auto lg:mx-0">
+                <div class="order-3 flex justify-end mx-auto xl:mx-0">
                     <a href="https://www.instagram.com/gluciakpl/" target="_blank">
                         <i class="pi pi-instagram hover-scale-105" style="color: black; font-size: 1.5rem"></i>
                     </a>

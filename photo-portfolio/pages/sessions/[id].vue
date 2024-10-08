@@ -54,15 +54,15 @@
 <script setup>
 const { id } = useRoute().params;
 
-const { data: session, sessionPending, sessionError } = await useAsyncData('session', () =>
+const { data: session, pending: sessionPending, error: sessionError } = await useAsyncData('session', () =>
     useSupabaseFetch('sessions', { slug: id }, true)
 );
 
-const { data: category, categoryPending, categoryError } = await useAsyncData('category', () => 
+const { data: category, pending: categoryPending, error: categoryError } = await useAsyncData('category', () => 
     useSupabaseFetch('categories', { id: session.value.category_id }, true)
 );
 
-const { data: photos, photosPending, photosError } = await useAsyncData('photos', () => 
+const { data: photos, pending: photosPending, error: photosError } = await useAsyncData('photos', () => 
     useSupabaseFetch('photos', { session_id: session.value.id })
 );
 

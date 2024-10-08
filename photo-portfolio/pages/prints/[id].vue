@@ -17,7 +17,7 @@
                 <NuxtImg format="avif" placeholder class="w-full mb-6" v-else-if="selectedImageType === 'print' && selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
                 <NuxtImg format="avif" placeholder class="w-full mb-6" 
                     v-if="selectedImageType === 'visualization'" 
-                    src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/test_print.jpg" 
+                    :src="print.visualization" 
                     :alt="'print - ' + print.name + ' visualization'" />
                 <!-- miniaturki obrazków do wybrania obrazu głównego -->
                 <div class="grid grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-6">
@@ -34,7 +34,7 @@
                     <!-- wizualizacja -->
                     <div @click="selectedImageType = 'visualization'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'visualization'}" >
                         <NuxtImg format="avif" placeholder class="w-full" 
-                            src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/test_print.jpg" 
+                            :src="print.visualization" 
                             :alt="'print - ' + print.name + ' visualization'" />
                     </div>
                 </div>
@@ -89,13 +89,14 @@
                 <button @click="openModal" class="bg-transparent w-48 py-2 border border-black hover-scale-105">zamów print</button>
             </div>
         </div>
+        <Toast position="bottom-left" />
         <PrintModal
+            :printName="print.name"
             :showModal="isModalVisible"
             :selectedSize="selectedSize"
             :selectedBorder="selectedBorder"
             :price="print.sizes[selectedSize]"
             @close="isModalVisible = false"
-            @submit="handleSubmit"
         />
     </div>
 </template>
@@ -107,7 +108,8 @@
     const selectedBorder = ref('whiteBorder');
     const selectedImageType = ref('print');
     const isModalVisible = ref(false);
-    const mail = useMail();
+    import Toast from 'primevue/toast'; 
+    // const mail = useMail();
 
     const { data: print, pending, error } = await useAsyncData('print', () =>
         useSupabaseFetch('prints', { slug: id }, true)
@@ -124,24 +126,6 @@
 
     const openModal = () => {
         isModalVisible.value = true;
-    };
-
-    const handleSubmit = (formData) => {
-        console.log('Zamówienie:', formData);
-
-        mail.send({
-            from: formData.email,
-            subject: `Zamówienie printa od ${formData.email}.`,
-            text: `
-                Dane dotyczące zamówienia:
-                Imię i nazwisko: ${formData.name}
-                Email: ${formData.email}
-                Numer telefonu: ${formData.phone ? formData.phone : '-'}
-                Nazwa printa: ${print.value.name}
-                Rozmiar printa: ${selectedSize.value}
-                Ramka: ${selectedBorder.value === 'whiteBorder' ? 'z ramką' : 'bez ramki'}
-            `,
-        })
     };
 
     if (!print.value) {

@@ -44,6 +44,7 @@
                     <button class="bg-black px-6 py-3 text-white hover-scale-105">/ Wyślij</button>
                 </div>
             </form>
+            <ToastNotification ref="toastNotification" />
             <!-- <Toast position="bottom-left" /> -->
             <!-- <button class="bg-black px-6 py-3 text-white hover-scale-105" @click="showSuccess">/ Wyślij</button> -->
         </div>
@@ -54,16 +55,12 @@
     import { useForm } from 'vee-validate';
     import * as yup from 'yup';
     import { useContentStore } from '~/stores/content';
-    import Toast from 'primevue/toast';
-    import { useToast } from "primevue/usetoast";
-    const toast = useToast();
+    import ToastNotification from '~/components/FormToast.vue';
+
     const today = new Date().toISOString().split('T')[0];
     const mail = useMail();
-
-    const showSuccess = () => {
-        toast.add({ severity: 'success', summary: 'Wysłano pomyślnie! :)', detail: 'Dzięki za kontakt.', life: 3000 });
-    };
     const contentStore = useContentStore();
+    const toastNotification = ref(null);
     
     const { errors, handleSubmit, resetForm, defineField, setFieldValue } = useForm({
         initialValues: {
@@ -99,6 +96,7 @@
                 `,
             });
             resetForm();
+            toastNotification.value.showSuccessToast();
         } catch (error) {
             console.error('Błąd podczas wysyłania wiadomości:', error);
         }
@@ -122,7 +120,7 @@
         -moz-appearance: none;
         appearance: none;
     }
-    .p-toast {
+    /* .p-toast {
         background-color: #EFEEEA !important;
         z-index: 100;
         padding: 2rem;
@@ -130,5 +128,5 @@
     .p-toast-message {
         z-index: 100;
         background-color: #EFEEEA;
-    }
+    } */
 </style>
