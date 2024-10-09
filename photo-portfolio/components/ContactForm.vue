@@ -44,7 +44,7 @@
                     <button class="bg-black px-6 py-3 text-white hover-scale-105">/ Wyślij</button>
                 </div>
             </form>
-            <ToastNotification ref="toastNotification" />
+            <Toast position="bottom-left" />
         </div>
     </div>
 </template>
@@ -52,13 +52,15 @@
 <script setup>
     import { useForm } from 'vee-validate';
     import * as yup from 'yup';
-    import { ref, watch } from 'vue';
+    import { watch } from 'vue';
     import { useContentStore } from '~/stores/content';
-    import ToastNotification from '~/components/FormToast.vue';
+    import Toast from 'primevue/toast';
+    import { useToast } from 'primevue/usetoast';
+
+    const toast = useToast();
 
     const contentStore = useContentStore();
     const mail = useMail();
-    const toastNotification = ref(null);
     
     const { errors, handleSubmit, resetForm, defineField, setFieldValue } = useForm({
         initialValues: {
@@ -100,7 +102,12 @@
                 `,
             });
             resetForm();
-            toastNotification.value.showSuccessToast();
+            toast.add({
+                severity: 'success',
+                summary: 'Wiadomość wysłana!',
+                detail: 'Dzięki za zamówienie, odezwę się wkrótce. :)',
+                life: 5000,
+            });
         } catch (error) {
             console.error('Błąd podczas wysyłania wiadomości:', error);
         }
