@@ -12,7 +12,7 @@
             src="https://invicpjbigavhuttylvh.supabase.co/storage/v1/object/public/photo-portfolio/rozne/60760009.jpg"
             />
             <div class="col-span-6 lg:col-span-3 flex flex-col justify-center">
-            <h2 class="section-header mb-6">Zapraszam na sesje</h2>
+            <h1 class="section-header mb-6">Zapraszam na sesje</h1>
             <p class="text-xl">
                 Jesteś modelem/modelką?<br />Nie masz doświadczenia w pozowaniu, ale
                 chciałbyś zacząć? Super dawaj!

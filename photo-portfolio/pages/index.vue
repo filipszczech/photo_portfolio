@@ -23,7 +23,9 @@
             <div></div>
         </div>
         <div class="mb-16 xl:mb-32">
-            <CategoriesGrid />
+            <div v-if="categoriesPending">Loading...</div>
+            <div v-else-if="categoriesError">{{ error }}</div>
+            <CategoriesGrid v-else :categories="categories" />
         </div>
         <AboutMe />
         <div class="mt-16 xl:mt-32 grid grid-cols-3 gap-6 xl:gap-12">
@@ -35,7 +37,9 @@
                 </div>
             </div>
             <div class="col-span-3">
-                <CamerasGrid />
+                <div v-if="camerasPending">Loading...</div>
+                <div v-else-if="camerasError">{{ error }}</div>
+                <CamerasGrid v-else :cameras="cameras" />
             </div>
         </div>
         <div class="mt-16 xl:mt-32">
@@ -82,6 +86,14 @@
             href: '/favicon2.png'
             }
         ]
+    });
+
+    const { data: categories, pending: categoriesPending, error: categoriesError } = useAsyncData('categories', async () => {
+        return await useSupabaseFetch('categories');
+    });
+
+    const { data: cameras, pending: camerasPending, error: camerasError } = useAsyncData('cameras', async () => {
+        return await useSupabaseFetch('cameras');
     });
 </script>
 

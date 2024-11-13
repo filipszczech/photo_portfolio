@@ -1,33 +1,13 @@
 <template>
     <GridContainer>
         <div v-for="camera in cameras" :key="camera.id" class="">
-            <ImageCard :src="camera.img" :desc="'/ ' + camera.name" :link="'/portfolio/' + camera.slug" />
+            <ImageCard :src="camera.img" :desc="'/ ' + camera.name" link="/cameras" />
         </div>
     </GridContainer>
 </template>
 
 <script setup>
-    const supabase = useSupabaseClient();
-
-    const cameras = ref([]);
-    const camerasLoading = ref(true);
-    const camerasError = ref(null);
-
-    const fetchCameras = async () => {
-        camerasLoading.value = true;
-        camerasError.value = null;
-
-        try {
-            const camerasData = await useSupabaseFetch('cameras');
-            cameras.value = camerasData;
-        } catch (err) {
-            camerasError.value = err.message;
-        } finally {
-            camerasLoading.value = false;
-        }
-    }
-
-    onMounted(() => {
-        fetchCameras()
-    })
+    defineProps({
+        cameras: Array
+    });
 </script>

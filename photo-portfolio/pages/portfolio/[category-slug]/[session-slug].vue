@@ -14,7 +14,7 @@
                 </div>
                 <div>
                     <span>/</span>
-                    <NuxtLink class="ml-2" :to="'/categories/' + category.slug"><span class="mx-2">{{ category.name.toLowerCase() }}</span></NuxtLink>
+                    <NuxtLink class="ml-2" :to="'/portfolio/' + category.slug"><span class="mx-2">{{ category.name.toLowerCase() }}</span></NuxtLink>
                 </div>
                 <div>
                     <span>/</span>
@@ -36,9 +36,18 @@
                         <span v-if="Object.keys(session.models).length > 1 && name !== Object.keys(session.models).pop()">, </span>
                     </span>
                 </p>
-                <p>/ Aparat: Mamiya 645</p>
-                <p class="">/ Obiektyw: Mamiya Sekkor C 105mm</p>
-                <p class="">/ Film: Lomography 400</p>
+                <p v-if="session.camera">
+                    / Aparat:
+                    <span>{{ session.camera.join(', ') }}</span>
+                </p>
+                <p v-if="session.film">
+                    / Film:
+                    <span>{{ session.film.join(', ') }}</span>
+                </p>
+                <p v-if="session.lens">
+                    / Obiektyw:
+                    <span>{{ session.lens.join(', ') }}</span>
+                </p>
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -52,14 +61,15 @@
 </template>
 
 <script setup>
-const { id } = useRoute().params;
+const session_slug = useRoute().params['sessionslug'];
+const category_slug = useRoute().params['categoryslug'];
 
 const { data: session, pending: sessionPending, error: sessionError } = await useAsyncData('session', () =>
-    useSupabaseFetch('sessions', { slug: id }, true)
+    useSupabaseFetch('sessions', { slug: session_slug }, true)
 );
 
 const { data: category, pending: categoryPending, error: categoryError } = await useAsyncData('category', () => 
-    useSupabaseFetch('categories', { id: session.value.category_id }, true)
+    useSupabaseFetch('categories', { slug: category_slug }, true)
 );
 
 const { data: photos, pending: photosPending, error: photosError } = await useAsyncData('photos', () => 

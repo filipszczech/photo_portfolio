@@ -10,7 +10,6 @@ export const useContentStore = defineStore('content', {
             Stwierdziłem więc, że aparat analogowy to dobry kompromis.<br>
             Wtedy zgarnąłem mój pierwszy sprzęt - Olympusa om 10. 
             Okazało się, że robienie zdjęć jest całkiem fajne no i się wciągnąłem. 
-            Zobaczymy, co będzie dalej.
         `,
         ContactFormText: `
             Jeśli masz do mnie jakieś pytania pisz śmiało! :)<br>Zapraszam na wspólną sesję w dogodnym dla nas obu terminie lub do zakupu moich printów.

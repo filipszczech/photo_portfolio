@@ -15,13 +15,9 @@
         <div v-if="categoriesPending">Loading...</div>
         <div v-else-if="categoriesError">{{ categoriesError.message }}</div>
         <div v-else class="mb-12 lg:mb-24">
-            <GridContainer>
-                <div v-for="category in categories" :key="category.id">
-                    <ImageCard :src="category.img" :desc="'/ ' + category.name" :link="'/categories/' + category.slug" />
-                </div>
-            </GridContainer>
+            <CategoriesGrid :categories="categories" />
         </div>
-        <h2 class="section-header mb-6">Aparaty</h2>
+        <!-- <h2 class="section-header mb-6">Aparaty</h2>
         <div class="grid grid-cols-3 gap-6 lg:gap-12 mb-6 lg:mb-12">
             <div class="p-4 border border-black col-span-3 lg:col-span-2">
                 <p>Jeśli Cię to interesuje to tutaj znajdziesz zdjęcia z podziałem na aparat oraz film, którymi zostały wykonane. Opisałem także wrażenia z ich korzystania.</p>
@@ -30,12 +26,8 @@
         <div v-if="camerasPending">Loading...</div>
         <div v-else-if="camerasError">{{ camerasError.message }}</div>
         <div v-else class="mb-12 lg:mb-24">
-            <GridContainer>
-                <div v-for="camera in cameras" :key="camera.id" class="">
-                    <ImageCard :src="camera.img" :desc="'/ ' + camera.name" :link="'/portfolio/' + camera.slug" />
-                </div>
-            </GridContainer>
-        </div>
+            <CamerasGrid :cameras="cameras" />
+        </div> -->
     </div>
 </template>
 
@@ -44,13 +36,13 @@
         title: 'Gluciak.pl | portfolio'
     });
 
-    const { data: categories, pending: categoriesPending, error: categoriesError } = await useAsyncData('categories', () =>
-        useSupabaseFetch('categories')
-    );
+    const { data: categories, pending: categoriesPending, error: categoriesError } = useAsyncData('categories', async () => {
+        return await useSupabaseFetch('categories');
+    });
 
-    const { data: cameras, pending: camerasPending, error: camerasError } = await useAsyncData('cameras', () => 
-        useSupabaseFetch('cameras')
-    );
+    const { data: cameras, pending: camerasPending, error: camerasError } = useAsyncData('cameras', async () => {
+        return await useSupabaseFetch('cameras');
+    });
 
     useSetSeoData({
         title: 'portfolio',

@@ -20,22 +20,23 @@
         </div>
         <GridContainer>
             <div v-for="session in sessions" :key="session.slug" class="">
-                <ImageCard :src="session.img" :desc="'/ ' + session.name" :link="'/sessions/' + session.slug" />
+                <ImageCard :src="session.img" :desc="'/ ' + session.name" :link="`/portfolio/${category.slug}/${session.slug}`" />
             </div>
         </GridContainer>
     </div>
 </template>
 
 <script setup>
-    const { slug } = useRoute().params;
+    const slug = useRoute().params['categoryslug'];
 
-    const { data: category, pending, error } = await useAsyncData('category', () =>
-        useSupabaseFetch('categories', { slug: slug }, true)
-    );
+    const { data: category, pending, error } = await useAsyncData('category', async () => {
+        return await useSupabaseFetch('categories', { slug: slug }, true)
+    });
 
-    const { data: sessions } = await useAsyncData('sessions', () =>
-        useSupabaseFetch('sessions', { category_id: category.value.id })
-    );
+    const { data: sessions } = await useAsyncData('sessions', async () => {
+        if (!category.value) return [];
+        return await useSupabaseFetch('sessions', { category_id: category.value.id })
+    });
 
     if (category.value) {
         useSetSeoData({

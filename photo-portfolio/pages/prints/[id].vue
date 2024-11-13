@@ -11,34 +11,36 @@
             <span class="ml-2">{{ print.name.toLowerCase() }}</span>
         </div>
         <div class="mb-9 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12">
-            <div>
-                <!-- główny obraz -->
-                <NuxtImg format="avif" placeholder class="w-full mb-6" v-if="selectedImageType === 'print' && selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
-                <NuxtImg format="avif" placeholder class="w-full mb-6" v-else-if="selectedImageType === 'print' && selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
-                <NuxtImg format="avif" placeholder class="w-full mb-6" 
-                    v-if="selectedImageType === 'visualization'" 
-                    :src="print.visualization" 
-                    :alt="'print - ' + print.name + ' visualization'" />
-                <!-- miniaturki obrazków do wybrania obrazu głównego -->
-                <div class="grid grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-6">
-                    <div @click="selectedImageType = 'print'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'print'}">
-                        <NuxtImg format="avif" placeholder class="w-full" 
-                            v-if="selectedBorder === 'noBorder'" 
-                            :src="print.src" 
-                            :alt="'print - ' + print.name" />
-                        <NuxtImg format="avif" placeholder class="w-full" 
-                            v-if="selectedBorder === 'whiteBorder'" 
-                            :src="print.src_border" 
-                            :alt="'print - ' + print.name" />
-                    </div>
-                    <!-- wizualizacja -->
-                    <div @click="selectedImageType = 'visualization'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'visualization'}" >
-                        <NuxtImg format="avif" placeholder class="w-full" 
-                            :src="print.visualization" 
-                            :alt="'print - ' + print.name + ' visualization'" />
+            <ClientOnly>
+                <div>
+                    <!-- główny obraz -->
+                    <NuxtImg format="avif" placeholder class="w-full mb-6" v-if="selectedImageType === 'print' && selectedBorder === 'noBorder'" :src="print.src" :alt="'print - ' + print.name" />
+                    <NuxtImg format="avif" placeholder class="w-full mb-6" v-else-if="selectedImageType === 'print' && selectedBorder === 'whiteBorder'" :src="print.src_border" :alt="'print - ' + print.name" />
+                    <NuxtImg format="avif" placeholder class="w-full mb-6" 
+                        v-if="selectedImageType === 'visualization'" 
+                        :src="print.visualization" 
+                        :alt="'print - ' + print.name + ' visualization'" />
+                    <!-- miniaturki obrazków do wybrania obrazu głównego -->
+                    <div class="grid grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-6">
+                        <div @click="selectedImageType = 'print'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'print'}">
+                            <NuxtImg format="avif" placeholder class="w-full" 
+                                v-if="selectedBorder === 'noBorder'" 
+                                :src="print.src" 
+                                :alt="'print - ' + print.name" />
+                            <NuxtImg format="avif" placeholder class="w-full" 
+                                v-if="selectedBorder === 'whiteBorder'" 
+                                :src="print.src_border" 
+                                :alt="'print - ' + print.name" />
+                        </div>
+                        <!-- wizualizacja -->
+                        <div @click="selectedImageType = 'visualization'" :class="{'cursor-pointer opacity-70': selectedImageType !== 'visualization'}" >
+                            <NuxtImg format="avif" placeholder class="w-full" 
+                                :src="print.visualization" 
+                                :alt="'print - ' + print.name + ' visualization'" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ClientOnly>
             <div>
                 <h1 class="section-header font-semibold mb-3 lg:mb-6">{{ print.name }}</h1>
                 <div class="mb-3 lg:mb-6">
