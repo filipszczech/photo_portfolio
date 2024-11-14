@@ -37,15 +37,15 @@
                     </span>
                 </p>
                 <p v-if="session.camera">
-                    / Aparat:
+                    <span>{{ session.camera.length > 1 ? '/ Aparaty: ' : '/ Aparat: ' }}</span>
                     <span>{{ session.camera.join(', ') }}</span>
                 </p>
                 <p v-if="session.film">
-                    / Film:
+                    <span>{{ session.film.length > 1 ? '/ Filmy: ' : '/ Film: ' }}</span>
                     <span>{{ session.film.join(', ') }}</span>
                 </p>
                 <p v-if="session.lens">
-                    / Obiektyw:
+                    <span>{{ session.lens.length > 1 ? '/ Obiektywy: ' : '/ Obiektyw: ' }}</span>
                     <span>{{ session.lens.join(', ') }}</span>
                 </p>
             </div>
