@@ -28,7 +28,8 @@
             <CategoriesGrid v-else :categories="categories" />
         </div>
         <AboutMe />
-        <div class="mt-16 xl:mt-32 grid grid-cols-3 gap-6 xl:gap-12">
+        <SessionSection />
+        <!-- <div class="mt-16 xl:mt-32 grid grid-cols-3 gap-6 xl:gap-12">
             <div class="col-span-3 lg:col-span-2">
                 <h2 class="section-header mb-6">Sprzęt</h2>
                 <div class="p-4 border border-black">
@@ -41,7 +42,7 @@
                 <div v-else-if="camerasError">{{ error }}</div>
                 <CamerasGrid v-else :cameras="cameras" />
             </div>
-        </div>
+        </div> -->
         <div class="mt-16 xl:mt-32">
             <div class="grid grid-cols-3 gap-6 xl:gap-12">
                 <div class="col-span-3 lg:col-span-2">

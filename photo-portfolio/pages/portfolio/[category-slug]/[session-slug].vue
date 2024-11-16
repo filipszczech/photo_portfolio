@@ -1,4 +1,4 @@
-<template :key="session.id">
+<template :key="session_slug">
     <div v-if="photosPending || categoryPending || sessionPending">Loading...</div>
     <div v-else-if="photosError || categoryError || sessionError">{{ error.message }}</div>
     <div v-else>
@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            <div v-for="(group, index) in reorderedPhotos" :key="index" class="flex flex-col gap-4">
+            <div v-for="(group, index) in groupedPhotos" :key="index" class="flex flex-col gap-4">
                 <div v-for="(photo, photoIndex) in group" :key="photoIndex" class="photo">
                     <NuxtImg format="avif" placeholder :src="photo.src" :alt="photo.alt" class="w-full h-auto object-cover" />
                 </div>
@@ -64,17 +64,17 @@
 const session_slug = useRoute().params['sessionslug'];
 const category_slug = useRoute().params['categoryslug'];
 
-const { data: session, pending: sessionPending, error: sessionError } = await useAsyncData('session', () =>
-    useSupabaseFetch('sessions', { slug: session_slug }, true)
-);
+const { data: session, pending: sessionPending, error: sessionError } = await useAsyncData(`session-${session_slug}`, async () => {
+    return await useSupabaseFetch('sessions', { slug: session_slug }, true)
+});
 
-const { data: category, pending: categoryPending, error: categoryError } = await useAsyncData('category', () => 
-    useSupabaseFetch('categories', { slug: category_slug }, true)
-);
+const { data: category, pending: categoryPending, error: categoryError } = await useAsyncData(`category-${category_slug}`, async () => {
+    return await useSupabaseFetch('categories', { slug: category_slug }, true)
+});
 
-const { data: photos, pending: photosPending, error: photosError } = await useAsyncData('photos', () => 
-    useSupabaseFetch('photos', { session_id: session.value.id })
-);
+const { data: photos, pending: photosPending, error: photosError } = await useAsyncData(`photos-${session_slug}`, async () => {
+    return await useSupabaseFetch('photos', { session_id: session.value.id })
+});
 
 if (session.value) {
     useSetSeoData({
@@ -100,9 +100,6 @@ const groupedPhotos = computed(() => {
     return groups;
 });
 
-const reorderedPhotos = computed(() => {
-    return [groupedPhotos.value[0], groupedPhotos.value[2], groupedPhotos.value[1]];
-});
 </script>
 
 <style>
